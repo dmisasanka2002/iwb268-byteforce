@@ -14,4 +14,23 @@ service / on new http:Listener(9090) {
         }
         return string `Hello, ${name}`;
     }
+
+    resource function get result() {
+    }
+
+    resource function put vote(string id, string voterId) {
+
+    }
+
+    resource function post addCandidate(@http:Payload json payload) {
+
+    }
+
+    resource function post addVoter(@http:Payload json payload) {
+
+    }
+
+    resource function put auth/voter() {
+
+    }
 }
