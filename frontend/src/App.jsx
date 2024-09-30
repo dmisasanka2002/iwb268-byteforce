@@ -1,39 +1,22 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AdminPage from "./pages/AdminPage";
+import VoterPage from "./pages/VoterPage";
+import HomePage from "./pages/HomePage";
+import ElectionDetailPage from "./pages/ElectionDetailPage";
 import "./App.css";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
-  async function handleClick() {
-    const res = await axios.post("http://localhost:8080/postData", {
-      name: "ishan",
-    });
-    console.log(100);
-
-    console.log(res);
-  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => handleClick()}>click</button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/voter" element={<VoterPage />} />
+        <Route path="/election/:id" element={<ElectionDetailPage />} />
+      </Routes>
+    </Router>
   );
 }
 

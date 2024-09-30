@@ -8,12 +8,16 @@ import ballerinax/java.jdbc;
 
 string dbPath = check file:getAbsolutePath("databases");
 
-string jdbcUrl = string `jdbc:h2:${dbPath}/VOTING`;
+string jdbcUrl;
 
-final sql:Client dbClient = check new jdbc:Client(jdbcUrl);
+sql:Client dbClient;
+
+function createDB(string database) {
+    jdbcUrl = string `jdbc:h2:${dbPath}/ELECTION`;
+    dbClient = check new jdbc:Client(jdbcUrl);
+}
 
 function initDatabase() returns error? {
-    // dbClient = check new jdbc:Client(jdbcUrl);
     _ = check dbClient->execute(`CREATE TABLE IF NOT EXISTS CANDIDATES (ID INT AUTO_INCREMENT PRIMARY KEY, VOTES INT, NAME VARCHAR(255))`);
     _ = check dbClient->execute(`CREATE TABLE IF NOT EXISTS VOTERS (ID INT AUTO_INCREMENT PRIMARY KEY, EMAIL VARCHAR(255), NIC VARCHAR(50),HASVOTE BOOL, NAME VARCHAR(255))`);
 

@@ -3,6 +3,11 @@
 import ballerina/http;
 import ballerina/sql;
 
+# Description.
+#
+# + id - field description  
+# + name - field description  
+# + votes - field description
 public type Candidate record {|
     @sql:Column {
         name: "ID"
@@ -18,6 +23,13 @@ public type Candidate record {|
     int votes;
 |};
 
+# Description.
+#
+# + id - field description  
+# + name - field description  
+# + email - field description  
+# + nic - field description  
+# + hasVote - field description
 public type Voter record {|
     @sql:Column {
         name: "ID"
@@ -41,12 +53,24 @@ public type Voter record {|
     boolean hasVote;
 |};
 
+# Description.
+#
+# + id - field description  
+# + name - field description  
+# + votes - field description
 public type NewCandidate record {|
     int id;
     string name;
     int votes;
 |};
 
+# Description.
+#
+# + id - field description  
+# + email - field description  
+# + name - field description  
+# + nic - field description  
+# + hasVote - field description
 public type NewVoter record {|
     int id;
     string email;
@@ -55,11 +79,17 @@ public type NewVoter record {|
     boolean hasVote;
 |};
 
+# Description.
+#
+# + body - field description
 public type CandidateAdded record {|
     *http:Created;
     Candidate body;
 |};
 
+# Description.
+#
+# + body - field description
 public type VoterAdded record {|
     *http:Created;
     Voter body;

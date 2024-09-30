@@ -1,0 +1,43 @@
+/* Overall voter page container */
+.voter-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0984e3, #74b9ff);
+  color: #fff;
+  padding: 20px;
+}
+
+/* Title styling */
+.voter-page-title {
+  font-size: 42px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+/* Voter login form section */
+.voter-login-section {
+  width: 100%;
+  max-width: 400px;
+  background-color: #2d3436;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .voter-page-title {
+    font-size: 36px;
+  }
+
+  .voter-login-section {
+    padding: 20px;
+  }
+}
