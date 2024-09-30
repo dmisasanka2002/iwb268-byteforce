@@ -18,6 +18,21 @@
   text-transform: uppercase;
 }
 
+.admin-dashboard .container .left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.container .left a {
+  text-decoration: none;
+  margin: 20px;
+  padding: 10px 25px;
+  font-size: 25px;
+  background-color: #f39c12;
+  border-radius: 20px;
+}
 /* Form container styling */
 .form-container {
   background-color: #fff;

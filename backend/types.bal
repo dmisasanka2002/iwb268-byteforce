@@ -76,7 +76,7 @@ public type NewVoter record {|
     string email;
     string name;
     string nic;
-    boolean hasVote;
+    boolean hasVote = false;
 |};
 
 # Description.

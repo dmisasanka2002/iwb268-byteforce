@@ -42,7 +42,7 @@ isolated service /api on new http:Listener(9090) {
     resource function post addCandidate(NewCandidate newCandidate) returns CandidateAdded|http:BadRequest|error {
         CandidateAdded|http:BadRequest candidate;
         lock {
-            candidate = check self.db.addCandidate(newCandidate.clone()).cloneReadOnly();
+            candidate = check self.db.addCandidate(newCandidate.clone()).clone();
         }
         return candidate;
     }
@@ -50,7 +50,7 @@ isolated service /api on new http:Listener(9090) {
     resource function post addVoter(NewVoter newVoter) returns VoterAdded|http:BadRequest|error {
         VoterAdded|http:BadRequest voter;
         lock {
-            voter = check self.db.addVoter(newVoter.clone()).cloneReadOnly();
+            voter = check self.db.addVoter(newVoter.clone()).clone();
         }
         return voter;
     }
@@ -58,4 +58,5 @@ isolated service /api on new http:Listener(9090) {
     resource function post auth/voter() {
 
     }
+
 }
