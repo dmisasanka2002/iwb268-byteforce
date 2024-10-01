@@ -1,9 +1,10 @@
 // src/components/VoterList.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getVoters } from "../services/electionService"; // Assume you have a function to get voters
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "../styles/VoterList.css"; // Import CSS for styling
+import { ElectionContext } from "../contexts/ElectionContext";
 
 const VoterList = () => {
   const [voters, setVoters] = useState([]);
@@ -11,23 +12,24 @@ const VoterList = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate(); // Initialize useNavigate hook
+  const { electionId } = useContext(ElectionContext);
+
+  const fetchVoters = async () => {
+    try {
+      const res = await getVoters(electionId); // Call function to fetch voters
+      if (res.status == 200) {
+        setVoters(res.data);
+      } else {
+        setError("Failed to fetch voters.");
+      }
+    } catch (err) {
+      setError("An error occurred while fetching voters.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchVoters = async () => {
-      try {
-        const res = await getVoters(); // Call function to fetch voters
-        if (res.success) {
-          setVoters(res.voters);
-        } else {
-          setError("Failed to fetch voters.");
-        }
-      } catch (err) {
-        setError("An error occurred while fetching voters.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchVoters();
   }, []);
 

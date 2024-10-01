@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { getElectionList } from "../services/electionService";
 
 export const ElectionContext = createContext({});
 
@@ -11,6 +12,16 @@ const ElectionContextProvider = (props) => {
     startTime: "",
     endTime: "",
   });
+
+  const fetchElectionList = async () => {
+    const response = await getElectionList();
+    setElections(response);
+  };
+
+  useEffect(() => {
+    fetchElectionList();
+  }, []);
+
   const values = {
     electionCreated,
     setElectionCreated,

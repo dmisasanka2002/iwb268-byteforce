@@ -4,7 +4,7 @@ import { ElectionContext } from "../contexts/ElectionContext";
 import { useNavigate } from "react-router-dom";
 
 const ElectionForm = () => {
-  const { setElection, setElectionCreated, setElections, elections } =
+  const { election, setElection, setElectionCreated, setElections, elections } =
     useContext(ElectionContext);
 
   const navigate = useNavigate();
@@ -16,10 +16,9 @@ const ElectionForm = () => {
     e.preventDefault();
     e.preventDefault();
     setElectionCreated(true);
-    // setElectionId(id); // Store the created election ID
     setElection({ title, startTime, endTime });
     setElections([...elections, { title, name: `Election ${title}` }]); // Add to elections list
-    navigate(`/election/${5}/add/candidates`);
+    navigate(`/election/${election.id}/add/candidates`);
 
     const response = await createElection({ title, startTime, endTime });
     console.log(response);

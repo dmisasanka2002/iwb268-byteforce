@@ -4,7 +4,7 @@ const backURL = import.meta.env.VITE_BACKENDURL;
 
 export const getCandidates = async (electionId) => {
   const response = await axios.get(
-    `${backURL}/api/elections/${electionId}/candidates`
+    `${backURL}/api/candidates/list/${electionId}`
   );
   return response.data;
 };

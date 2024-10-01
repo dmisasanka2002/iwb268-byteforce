@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import { getCandidates, updateCandidate } from "../services/electionService"; // Import the updateCandidate function
 import "../styles/CandidateList.css"; // Import CSS for styling
+import { ElectionContext } from "../contexts/ElectionContext";
 
-const CandidateList = ({ electionId }) => {
+const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -11,23 +12,25 @@ const CandidateList = ({ electionId }) => {
   const [editCandidate, setEditCandidate] = useState(null); // Candidate being edited
 
   const navigate = useNavigate(); // Initialize useNavigate hook
+  const { electionId } = useContext(ElectionContext);
+
+  const fetchCandidates = async () => {
+    try {
+      const res = await getCandidates(electionId);
+
+      if (res.status == 200) {
+        setCandidates(res.data);
+      } else {
+        setError("Failed to fetch candidates.");
+      }
+    } catch (err) {
+      setError("An error occurred while fetching candidates.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCandidates = async () => {
-      try {
-        const res = await getCandidates(electionId);
-        if (res.success) {
-          setCandidates(res.candidates);
-        } else {
-          setError("Failed to fetch candidates.");
-        }
-      } catch (err) {
-        setError("An error occurred while fetching candidates.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCandidates();
   }, [electionId]);
 

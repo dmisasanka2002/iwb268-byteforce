@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getCandidates, castVote } from "../services/voteService";
+import { useParams } from "react-router-dom";
 
 const VotePage = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchCandidates = async () => {

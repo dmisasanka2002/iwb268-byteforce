@@ -16,7 +16,7 @@ const HomePage = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/voter" className="nav-link">
+            <Link to="/voter/login" className="nav-link">
               Voter
             </Link>
           </li>

@@ -3,12 +3,14 @@ import { addCandidate } from "../services/electionService";
 import "../styles/CandidateForm.css"; // Import CSS for advanced styling
 import CandidateList from "./CandidatesList";
 import CsvUploader from "./CsvUploader";
+import { useParams } from "react-router-dom";
 
-const CandidateForm = ({ electionId }) => {
+const CandidateForm = () => {
   const [name, setName] = useState("");
   const [number, setnumber] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const { id } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,11 @@ const CandidateForm = ({ electionId }) => {
       return;
     }
     setError("");
-    const res = await addCandidate({ name, id: number.length });
+    const res = await addCandidate({
+      name,
+      number: parseInt(number),
+      election_id: parseInt(id),
+    });
     console.log(res);
 
     setName(""); // Clear form

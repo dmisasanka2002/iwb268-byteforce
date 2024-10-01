@@ -18,9 +18,9 @@ public class Database {
         _ = check self.dbClient->execute(`
         CREATE TABLE IF NOT EXISTS ELECTIONS (
         ID INT AUTO_INCREMENT PRIMARY KEY,
-        NAME VARCHAR(255) UNIQUE,
-        START_DATE DATETIME,
-        END_DATE DATETIME
+        NAME VARCHAR(255) UNIQUE NOT NULL,
+        START_DATE DATETIME NOT NULL,
+        END_DATE DATETIME NOT NULL
         )`);
 
         // Create the CANDIDATES table with a foreign key to ELECTIONS
@@ -28,6 +28,7 @@ public class Database {
         CREATE TABLE IF NOT EXISTS CANDIDATES (
         ID INT AUTO_INCREMENT PRIMARY KEY,
         ELECTION_ID INT,
+        NUMBER INT UNIQUE NOT NULL,
         NAME VARCHAR(255) NOT NULL,
         VOTES INT DEFAULT 0,
         FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE
@@ -56,16 +57,29 @@ public class Database {
 
         // Retrieve the last inserted ID (the election ID)
         string|int? id = result.lastInsertId;
-        newElection.id = <int>id;
-        return id is int ? <ElectionAdded>{body: {...newElection}} : error("Error occurred while retriving the candidate id");
+        return id is int ? <ElectionAdded>{body: {...newElection, id: id}} : error("Error occurred while retriving the candidate id");
 
     }
 
-    isolated function getCandidates() returns Candidate[]|error {
-        sql:ParameterizedQuery query = `SELECT * FROM CANDIDATES`;
+    isolated function getElections() returns Election[]|error {
+        sql:ParameterizedQuery query = `SELECT * FROM ELECTIONS`;
+        stream<Election, sql:Error?> electionStream = self.dbClient->query(query);
+        return from Election election in electionStream
+            select election;
+    }
+
+    isolated function getCandidates(string election_id) returns Candidate[]|error {
+        sql:ParameterizedQuery query = `SELECT * FROM CANDIDATES WHERE ELECTION_ID = ${election_id}`;
         stream<Candidate, sql:Error?> candidateStream = self.dbClient->query(query);
         return from Candidate candidate in candidateStream
             select candidate;
+    }
+
+    isolated function getVoters(string election_id) returns Voter[]|error {
+        sql:ParameterizedQuery query = `SELECT * FROM VOTERS WHERE ELECTION_ID = ${election_id}`;
+        stream<Voter, sql:Error?> voterStream = self.dbClient->query(query);
+        return from Voter voter in voterStream
+            select voter;
     }
 
     isolated function getVoter(string nic) returns Voter|http:NotFound {
@@ -75,21 +89,23 @@ public class Database {
     }
 
     isolated function addCandidate(NewCandidate newCandidate) returns CandidateAdded|http:BadRequest|error {
-        sql:ParameterizedQuery query = `INSERT INTO CANDIDATES (ID, NAME, VOTES) VALUES (${newCandidate.id}, ${newCandidate.name}, ${newCandidate.votes})`;
+        sql:ParameterizedQuery query = `INSERT INTO CANDIDATES (NUMBER, NAME, ELECTION_ID) VALUES (${newCandidate.number}, ${newCandidate.name}, ${newCandidate.election_id})`;
         sql:ExecutionResult result = check self.dbClient->execute(query);
 
         string|int? id = result.lastInsertId;
-        newCandidate.id = <int>id;
-        return id is int ? <CandidateAdded>{body: {...newCandidate}} : error("Error occurred while retriving the candidate id");
+        return id is int ? <CandidateAdded>{body: {...newCandidate, id: id}} : error("Error occurred while retriving the candidate id");
     }
 
     isolated function addVoter(NewVoter newVoter) returns VoterAdded|http:BadRequest|error {
-        sql:ParameterizedQuery query = `INSERT INTO VOTERS (ID, NAME, EMAIL, NIC) VALUES (${newVoter.id}, ${newVoter.name}, ${newVoter.email}, ${newVoter.nic})`;
+        sql:ParameterizedQuery query = `INSERT INTO VOTERS (NAME, EMAIL, NIC, ELECTION_ID) VALUES ( ${newVoter.name}, ${newVoter.email}, ${newVoter.nic}, ${newVoter.election_id})`;
         sql:ExecutionResult result = check self.dbClient->execute(query);
 
         string|int? id = result.lastInsertId;
-        newVoter.id = <int>id;
-        return id is int ? <VoterAdded>{body: {...newVoter}} : error("Error occurred while retriving the voter id");
+        return id is int ? <VoterAdded>{body: {...newVoter, id: id}} : error("Error occurred while retriving the voter id");
+    }
+
+    isolated function addVote(Vote newVote) {
+
     }
 
 }
