@@ -2,6 +2,29 @@
 
 import ballerina/http;
 import ballerina/sql;
+import ballerina/time;
+
+public type Election record {|
+    @sql:Column {
+        name: "ID"
+    }
+    readonly int id;
+
+    @sql:Column {
+        name: "NAME"
+    }
+    string name;
+
+    @sql:Column {
+        name: "START_DATE"
+    }
+    time:Date startDate;
+
+    @sql:Column {
+        name: "END_DATE"
+    }
+    time:Date endDate;
+|};
 
 # Description.
 #
@@ -57,11 +80,24 @@ public type Voter record {|
 #
 # + id - field description  
 # + name - field description  
+# + startDate - field description  
+# + endDate - field description
+public type NewElection record {|
+    int id;
+    string name;
+    time:Date startDate;
+    time:Date endDate;
+|};
+
+# Description.
+#
+# + id - field description  
+# + name - field description  
 # + votes - field description
 public type NewCandidate record {|
     int id;
     string name;
-    int votes;
+    int votes = 0;
 |};
 
 # Description.
@@ -93,4 +129,12 @@ public type CandidateAdded record {|
 public type VoterAdded record {|
     *http:Created;
     Voter body;
+|};
+
+# Description.
+#
+# + body - field description
+public type ElectionAdded record {|
+    *http:Created;
+    Election body;
 |};

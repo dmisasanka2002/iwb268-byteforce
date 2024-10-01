@@ -7,3 +7,4 @@ function NICverification(string nic) returns boolean {
 function emailVerification(string email) {
 
 }
+

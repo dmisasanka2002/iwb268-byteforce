@@ -1,18 +1,30 @@
 import ballerina/http;
+import ballerina/io;
 
 # A service representing a network-accessible API
 # bound to port `9090`.
+#
+@http:ServiceConfig {
+    cors: {
+        allowOrigins: ["*"]
+    }
+}
 isolated service /api on new http:Listener(9090) {
+
     private Database db;
 
     function init() returns error? {
         self.db = check new Database("Election");
     }
 
-    resource function post election/initialise/[string databaseName]() returns error? {
+    resource function post election/create(NewElection newElection) returns ElectionAdded|http:BadRequest|error {
+        ElectionAdded|http:BadRequest election;
+
         lock {
-            self.db = check new Database(databaseName);
+            io:println(newElection.clone());
+            election = check self.db.createElection(newElection.clone()).clone();
         }
+        return election;
     }
 
     resource function get candidates() returns Candidate[]|error {
@@ -42,6 +54,7 @@ isolated service /api on new http:Listener(9090) {
     resource function post addCandidate(NewCandidate newCandidate) returns CandidateAdded|http:BadRequest|error {
         CandidateAdded|http:BadRequest candidate;
         lock {
+            io:println(newCandidate.clone());
             candidate = check self.db.addCandidate(newCandidate.clone()).clone();
         }
         return candidate;

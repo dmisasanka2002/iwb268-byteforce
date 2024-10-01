@@ -21,8 +21,8 @@ const ElectionForm = () => {
     setElections([...elections, { title, name: `Election ${title}` }]); // Add to elections list
     navigate(`/election/${5}/add/candidates`);
 
-    // const response = await createElection({ title, startTime, endTime });
-    // console.log(response);
+    const response = await createElection({ title, startTime, endTime });
+    console.log(response);
   };
 
   return (

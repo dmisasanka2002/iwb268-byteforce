@@ -14,8 +14,51 @@ public class Database {
         self.jdbcUrl = string `jdbc:h2:${self.dbPath}/${databaseName}`;
         self.dbClient = check new jdbc:Client(self.jdbcUrl);
 
-        _ = check self.dbClient->execute(`CREATE TABLE IF NOT EXISTS CANDIDATES (ID INT AUTO_INCREMENT PRIMARY KEY, VOTES INT, NAME VARCHAR(255))`);
-        _ = check self.dbClient->execute(`CREATE TABLE IF NOT EXISTS VOTERS (ID INT AUTO_INCREMENT PRIMARY KEY, EMAIL VARCHAR(255), NIC VARCHAR(50),HASVOTE BOOL, NAME VARCHAR(255))`);
+        // Create the ELECTIONS table with DATETIME for start and end times
+        _ = check self.dbClient->execute(`
+        CREATE TABLE IF NOT EXISTS ELECTIONS (
+        ID INT AUTO_INCREMENT PRIMARY KEY,
+        NAME VARCHAR(255) UNIQUE,
+        START_DATE DATETIME,
+        END_DATE DATETIME
+        )`);
+
+        // Create the CANDIDATES table with a foreign key to ELECTIONS
+        _ = check self.dbClient->execute(`
+        CREATE TABLE IF NOT EXISTS CANDIDATES (
+        ID INT AUTO_INCREMENT PRIMARY KEY,
+        ELECTION_ID INT,
+        NAME VARCHAR(255) NOT NULL,
+        VOTES INT DEFAULT 0,
+        FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE
+        )`);
+
+        // Create the VOTERS table with a foreign key to ELECTIONS
+        _ = check self.dbClient->execute(`
+        CREATE TABLE IF NOT EXISTS VOTERS (
+        ID INT AUTO_INCREMENT PRIMARY KEY,
+        ELECTION_ID INT,
+        NAME VARCHAR(255) NOT NULL,
+        EMAIL VARCHAR(255) UNIQUE NOT NULL,
+        NIC VARCHAR(50) UNIQUE NOT NULL,
+        HASVOTE BOOL DEFAULT FALSE,
+        FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE
+        )`);
+    }
+
+    isolated function createElection(NewElection newElection) returns ElectionAdded|http:BadRequest|error {
+        // Prepare the SQL query to insert the new election
+        sql:ParameterizedQuery query = `INSERT INTO ELECTIONS (NAME, START_DATE, END_DATE) 
+                                    VALUES (${newElection.name}, ${newElection.startDate}, ${newElection.endDate})`;
+
+        // Execute the query
+        sql:ExecutionResult result = check self.dbClient->execute(query);
+
+        // Retrieve the last inserted ID (the election ID)
+        string|int? id = result.lastInsertId;
+        newElection.id = <int>id;
+        return id is int ? <ElectionAdded>{body: {...newElection}} : error("Error occurred while retriving the candidate id");
+
     }
 
     isolated function getCandidates() returns Candidate[]|error {

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { addVoter } from "../services/electionService";
 import "../styles/VoterForm.css"; // Import CSS for advanced styling
+import CsvUploader from "./CsvUploader";
+import VoterList from "./VoterList";
 
 const VoterForm = () => {
   const [name, setName] = useState("");
@@ -54,6 +56,8 @@ const VoterForm = () => {
         {message && <p className="success-message">{message}</p>}
         {error && <p className="error-message">{error}</p>}
       </form>
+      <CsvUploader />
+      <VoterList />
     </div>
   );
 };
