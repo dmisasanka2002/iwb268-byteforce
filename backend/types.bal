@@ -87,6 +87,7 @@ public type NewElection record {|
     string name;
     time:Date startDate;
     time:Date endDate;
+
 |};
 
 # Description.
