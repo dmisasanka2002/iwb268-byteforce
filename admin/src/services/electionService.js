@@ -2,18 +2,16 @@ import axios from "axios";
 
 const backURL = import.meta.env.VITE_BACKENDURL;
 export const createElection = async (electionData) => {
-  const startDate = new Date(electionData.startTime).toISOString(); // Generates current date in ISO 8601 format
-  const endDate = new Date(electionData.endTime).toISOString();
   console.log({
     name: electionData.title,
-    startDate: startDate,
-    endDate: endDate,
+    startTime: new Date(electionData.startTime),
+    endTime: new Date(electionData.endTime),
   });
 
   const response = await axios.post(`${backURL}/api/election/create`, {
     name: electionData.title,
-    startDate: startDate,
-    endDate: endDate,
+    startTime: new Date(electionData.startTime),
+    endTime: new Date(electionData.endTime),
   });
   return response.data;
 };

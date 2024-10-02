@@ -108,4 +108,8 @@ public class Database {
 
     }
 
+    isolated function getResults(string election_id) {
+
+    }
+
 }

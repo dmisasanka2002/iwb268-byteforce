@@ -9,8 +9,23 @@ type Employee record {|
     boolean isMarried;
 |};
 
+type NewCandidate record {|
+    int election_id;
+    int number;
+    string name;
+    int votes = 0;
+|};
+
+type NewVoter record {|
+    int election_id;
+    string email;
+    string name;
+    string nic;
+    boolean hasVote = false;
+|};
+
 //Read the incoming data in bytes and extracts CSV data
-public function extractCSVLines(http:Request request) returns string[][]|error {
+public isolated function extractCSVLines(http:Request request) returns string[][]|error {
     var bodyParts = request.getBodyParts();
     if (bodyParts is mime:Entity[]) {
         string[][] csvLines = [];
@@ -33,7 +48,7 @@ public function extractCSVLines(http:Request request) returns string[][]|error {
 }
 
 //Read the io:ReadableCSVChannel and construct string[][] which represents CSV data 
-function channelReadCsv(io:ReadableCSVChannel readableCSVChannel) returns string[][]|error {
+isolated function channelReadCsv(io:ReadableCSVChannel readableCSVChannel) returns string[][]|error {
     string[][] results = [];
     int i = 0;
     while readableCSVChannel.hasNext() {
@@ -51,7 +66,7 @@ function channelReadCsv(io:ReadableCSVChannel readableCSVChannel) returns string
 }
 
 //Construct record values 
-public function createRecord(string[][] inputCSVData) returns Employee[]|error {
+public isolated function createRecord(string[][] inputCSVData) returns Employee[]|error {
     Employee[] employees = [];
     foreach var line in inputCSVData {
         Employee employee = {
@@ -63,4 +78,31 @@ public function createRecord(string[][] inputCSVData) returns Employee[]|error {
         employees.push(employee);
     }
     return employees;
+}
+
+public isolated function createCandidateRecord(string[][] inputCSVData, string election_id) returns NewCandidate[]|error {
+    NewCandidate[] candidates = [];
+    foreach var line in inputCSVData {
+        NewCandidate candidate = {
+            election_id: check int:fromString(election_id),
+            number: check int:fromString(line[0]),
+            name: line[1]
+        };
+        candidates.push(candidate);
+    }
+    return candidates;
+}
+
+public isolated function createVoterRecord(string[][] inputCSVData, string election_id) returns NewVoter[]|error {
+    NewVoter[] voters = [];
+    foreach var line in inputCSVData {
+        NewVoter voter = {
+            election_id: check int:fromString(election_id),
+            name: line[0],
+            email: line[1],
+            nic: line[2]
+        };
+        voters.push(voter);
+    }
+    return voters;
 }

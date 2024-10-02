@@ -166,6 +166,12 @@ public type ElectionAdded record {|
     Election body;
 |};
 
+# Description.
 public type Voted record {|
     *http:Ok;
 |};
+
+public enum FileTypes {
+    VOTERS,
+    CANDIDATES
+}

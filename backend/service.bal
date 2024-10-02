@@ -2,6 +2,7 @@ import backend.file_read;
 
 import ballerina/http;
 import ballerina/io;
+import ballerina/time;
 
 # A service representing a network-accessible API
 # bound to port `9090`.
@@ -21,11 +22,16 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success - "startDate":{"timeAbbrev":"Z","dayOfWeek":2,"year":2024,"month":10,"day":1,"hour":9,"minute":16,"second":0},
-    resource function post election/create(NewElection newElection) returns ElectionAdded|http:BadRequest|error {
+    resource function post election/create(@http:Payload json data) returns ElectionAdded|http:BadRequest|error {
+        // io:println(data.clone());
         ElectionAdded|http:BadRequest election;
+        NewElection newElection = {
+            name: check data.name,
+            startDate: check time:civilFromString(check data.startTime),
+            endDate: check time:civilFromString(check data.endTime)
+        };
 
         lock {
-            io:println(newElection.clone());
             election = check self.db.createElection(newElection.clone()).clone();
         }
         return election;
@@ -69,10 +75,15 @@ isolated service /api on new http:Listener(9090) {
     }
 
     resource function get finalResult/[string election_id]() {
+        lock {
+            self.db.getResults(election_id);
+        }
     }
 
     resource function put vote(Vote newVote) {
-
+        lock {
+            self.db.addVote(newVote.clone());
+        }
     }
 
     // success
@@ -98,16 +109,35 @@ isolated service /api on new http:Listener(9090) {
 
     }
 
-    resource function post uploadFile(http:Request request) returns http:Response|error {
+    resource function post upload/file/[FileTypes fileType]/[string election_id](http:Request request) returns http:Response|error {
         http:Response response = new;
         string[][] csvLines = check file_read:extractCSVLines(request);
 
+        if fileType == CANDIDATES {
+            NewCandidate[] newCandidates = check file_read:createCandidateRecord(csvLines, election_id);
+
+            foreach var newCandidate in newCandidates {
+                lock {
+                    CandidateAdded|http:BadRequest _ = check self.db.addCandidate(newCandidate.clone()).clone();
+                }
+            }
+        }
+
+        else if fileType == VOTERS {
+            NewVoter[] newVoters = check file_read:createVoterRecord(csvLines, election_id);
+
+            foreach var newVoter in newVoters {
+                lock {
+                    VoterAdded|http:BadRequest _ = check self.db.addVoter(newVoter.clone()).clone();
+                }
+            }
+        }
+
         // Employee[] employees = check file_read:createRecord(csvLines);
         //Returns extracted data in the response. Or can do whatever processing as needed. 
-        // response.setPayload(users);
+        response.setPayload("Data Added Successfully.");
 
         return response;
     }
-
 }
 

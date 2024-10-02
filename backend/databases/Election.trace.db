@@ -142,3 +142,75 @@ SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
 2024-10-02 19:46:12 jdbc[4]: exception
 org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
 SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 20:48:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 20:48:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 21:00:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 21:00:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:12:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:12:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:13:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:13:29 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:13:56 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:13:56 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:16:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:16:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:27:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:27:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:28:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:28:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:29:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:29:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:29:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:29:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:31:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:31:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:32:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-02 22:32:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
