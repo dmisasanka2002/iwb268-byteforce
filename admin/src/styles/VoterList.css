@@ -1,0 +1,36 @@
+.voter-list-container {
+  padding: 20px;
+}
+
+.list-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.voter-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.voter-item {
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.next-btn {
+  background-color: #007bff; /* Primary color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px; /* Add some space above the button */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.next-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

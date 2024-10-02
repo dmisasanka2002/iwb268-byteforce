@@ -1,3 +1,5 @@
+import backend.file_read;
+
 import ballerina/http;
 import ballerina/io;
 
@@ -96,4 +98,16 @@ isolated service /api on new http:Listener(9090) {
 
     }
 
+    resource function post uploadFile(http:Request request) returns http:Response|error {
+        http:Response response = new;
+        string[][] csvLines = check file_read:extractCSVLines(request);
+
+        // Employee[] employees = check file_read:createRecord(csvLines);
+        //Returns extracted data in the response. Or can do whatever processing as needed. 
+        // response.setPayload(users);
+
+        return response;
+    }
+
 }
+

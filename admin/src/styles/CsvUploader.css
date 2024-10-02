@@ -1,0 +1,41 @@
+/* CsvUploader.css */
+
+.drag-drop-zone {
+  border: 2px dashed #007bff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.drag-drop-zone.active {
+  background-color: #f1f1f1;
+}
+
+.file-link {
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.file-link:hover {
+  text-decoration: underline;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
