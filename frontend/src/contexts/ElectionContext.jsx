@@ -7,15 +7,37 @@ const ElectionContextProvider = (props) => {
   const [electionCreated, setElectionCreated] = useState(false);
   const [electionId, setElectionId] = useState(null);
   const [elections, setElections] = useState([]); // Store created elections
+  const [upcomingElections, setUpcomingElections] = useState([]);
+  const [happeningElections, setHappeningElections] = useState([]);
+  const [closedElections, setClosedElections] = useState([]);
+
   const [election, setElection] = useState({
     title: "",
     startTime: "",
     endTime: "",
   });
 
+  const filterElectionList = async (response) => {
+    // for test
+    setClosedElections(elections);
+    setHappeningElections(elections);
+    setUpcomingElections(elections);
+
+    setUpcomingElections(
+      response.filter((election) => new Date(election.endTime) > new Date())
+    );
+    setHappeningElections(
+      response.filter((election) => new Date(election.endTime) < new Date())
+    );
+    setClosedElections(
+      response.filter((election) => new Date(election.endTime) < new Date())
+    );
+  };
+
   const fetchElectionList = async () => {
     const response = await getElectionList();
     setElections(response);
+    filterElectionList(response);
   };
 
   useEffect(() => {
@@ -31,6 +53,9 @@ const ElectionContextProvider = (props) => {
     setElections,
     election,
     setElection,
+    upcomingElections,
+    happeningElections,
+    closedElections,
   };
 
   return (

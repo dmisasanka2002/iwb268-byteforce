@@ -20,6 +20,8 @@ export const createElection = async (electionData) => {
 
 export const getElectionList = async () => {
   const response = await axios.get(`${backURL}/api/election/list`);
+  // console.log(response);
+
   return response.data;
 };
 
@@ -39,7 +41,12 @@ export const addVoter = async (voterData) => {
 };
 
 export const getElectionResults = async (electionId) => {
-  const response = await axios.get(`${backURL}/api/finalResult/${electionId}`);
+  // const response = await axios.get(`${backURL}/api/finalResult/${electionId}`);
+  const response = await axios.get(
+    `${backURL}/api/candidates/list/${electionId}`
+  );
+  // console.log(response);
+
   return response.data;
 };
 

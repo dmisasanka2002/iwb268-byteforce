@@ -1,9 +1,92 @@
-.elections-list ul li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* ElectionList.css */
+
+.election-list {
+  max-width: 1200px; /* Limit the width of the container */
+  margin: 0 auto; /* Center the container on the page */
+  padding: 20px;
 }
-.elections-list ul li .buttons {
+
+h2 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.upcoming-elections,
+.happening-elections,
+.closed-elections {
+  margin-bottom: 40px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.election-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.election-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.election-list li:hover {
+  transform: scale(1.02);
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.buttons {
   display: flex;
   gap: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Adjust spacing for mobile responsiveness */
+@media (max-width: 768px) {
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buttons {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 10px;
+  }
 }

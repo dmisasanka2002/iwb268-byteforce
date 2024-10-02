@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getElectionResults } from "../services/electionService";
+import "../styles/ElectionResults.css"; // Import CSS for ElectionResults styling
+import ResultCard from "./ResultCard";
 
 const ElectionResults = ({ electionId }) => {
   const [results, setResults] = useState([]);
@@ -14,17 +16,13 @@ const ElectionResults = ({ electionId }) => {
   }, [electionId]);
 
   return (
-    <div>
-      <h2>Election Results</h2>
-      <ul>
-        {results
-          .sort((a, b) => b.votes - a.votes)
-          .map((candidate, index) => (
-            <li key={index}>
-              {candidate.name}: {candidate.votes} votes
-            </li>
-          ))}
-      </ul>
+    <div className="results-container">
+      <h2 className="results-title">Election Results</h2>
+      <div className="results-list">
+        {results.map((candidate, index) => (
+          <ResultCard key={index} candidate={candidate} />
+        ))}
+      </div>
     </div>
   );
 };
