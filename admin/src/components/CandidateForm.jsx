@@ -10,6 +10,8 @@ const CandidateForm = () => {
   const [number, setnumber] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const fileType = "Test"; // CANDIDATES
+
   const { id } = useParams();
 
   const handleSubmit = async (e) => {
@@ -65,7 +67,7 @@ const CandidateForm = () => {
         {error && <p className="error-message">{error}</p>}
       </form>
       <h2>OR</h2>
-      <CsvUploader />
+      <CsvUploader fileType={fileType} />
       <CandidateList />
     </div>
   );

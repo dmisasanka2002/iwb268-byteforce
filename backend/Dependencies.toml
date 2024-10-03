@@ -124,6 +124,9 @@ dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "time"}
 ]
+modules = [
+	{org = "ballerina", packageName = "jwt", moduleName = "jwt"}
+]
 
 [[package]]
 org = "ballerina"
@@ -362,6 +365,7 @@ dependencies = [
 	{org = "ballerina", name = "file"},
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jwt"},
 	{org = "ballerina", name = "mime"},
 	{org = "ballerina", name = "sql"},
 	{org = "ballerina", name = "test"},
@@ -372,7 +376,8 @@ dependencies = [
 ]
 modules = [
 	{org = "sasanka", packageName = "backend", moduleName = "backend"},
-	{org = "sasanka", packageName = "backend", moduleName = "backend.file_read"},
+	{org = "sasanka", packageName = "backend", moduleName = "backend.readCSVFromRequest"},
+	{org = "sasanka", packageName = "backend", moduleName = "backend.recordFromCSV"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.verifications"}
 ]
 

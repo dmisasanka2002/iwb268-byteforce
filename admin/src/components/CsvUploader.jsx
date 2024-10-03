@@ -3,7 +3,7 @@ import "../styles/CsvUploader.css"; // Import the CSS file
 import { uploadFile } from "../services/electionService";
 import { ElectionContext } from "../contexts/ElectionContext";
 
-const CsvUploader = () => {
+const CsvUploader = ({ fileType }) => {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const { electionId } = useContext(ElectionContext);
@@ -61,7 +61,7 @@ const CsvUploader = () => {
 
       const responce = await uploadFile(
         formData,
-        "TEST",
+        fileType,
         electionId.toString()
       );
       console.log(responce);

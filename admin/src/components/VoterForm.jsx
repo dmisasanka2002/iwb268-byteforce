@@ -11,6 +11,7 @@ const VoterForm = () => {
   const [voterEmail, setVoterEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const fileType = "TEST"; // VOTERS
 
   const { electionId } = useContext(ElectionContext);
 
@@ -80,7 +81,7 @@ const VoterForm = () => {
         {error && <p className="error-message">{error}</p>}
       </form>
       <h2>OR</h2>
-      <CsvUploader />
+      <CsvUploader fileType={fileType} />
       <VoterList />
     </div>
   );

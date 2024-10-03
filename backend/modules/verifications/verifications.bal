@@ -1,10 +1,17 @@
 // autherizations and email verifications
+import ballerina/jwt;
 
-function NICverification(string nic) returns boolean {
+function verifyNIC(string nic) returns boolean {
     return true;
 }
 
-function emailVerification(string email) {
+function VerifyEmail(string email) {
 
 }
 
+function authMiddleware() returns boolean {
+    jwt:ValidatorConfig validatorConfig;
+    jwt:IssuerConfig issuerConfig;
+
+    return true;
+}

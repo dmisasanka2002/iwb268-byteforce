@@ -4,6 +4,7 @@ import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
 
+# Description.
 public class Database {
     private string dbPath;
     private string jdbcUrl;
@@ -13,6 +14,14 @@ public class Database {
         self.dbPath = check file:getAbsolutePath("databases");
         self.jdbcUrl = string `jdbc:h2:${self.dbPath}/${databaseName}`;
         self.dbClient = check new jdbc:Client(self.jdbcUrl);
+
+        // // Create the USERS table
+        // _ = check self.dbClient->execute(`
+        // CREATE TABLE IF NOT EXISTS USERS (
+        // ID INT AUTO_INCREMENT PRIMARY KEY,
+        // EMAIL VARCHAR(255) UNIQUE NOT NULL,
+        // PASSWORD VARCHAR(50) NOT NULL
+        // )`);
 
         // Create the ELECTIONS table with DATETIME for start and end times
         _ = check self.dbClient->execute(`

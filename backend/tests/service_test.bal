@@ -2,7 +2,7 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/test;
 
-http:Client testClient = check new ("http://localhost:9090");
+http:Client testClient = check new ("http://localhost:9090/api");
 
 // Before Suite Function
 @test:BeforeSuite

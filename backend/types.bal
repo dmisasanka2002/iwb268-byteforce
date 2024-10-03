@@ -4,6 +4,12 @@ import ballerina/http;
 import ballerina/sql;
 import ballerina/time;
 
+# Description.
+#
+# + id - field description  
+# + name - field description  
+# + startDate - field description  
+# + endDate - field description
 public type Election record {|
     @sql:Column {
         name: "ID"
@@ -129,6 +135,17 @@ public type NewVoter record {|
     string name;
     string nic;
     boolean hasVote = false;
+|};
+
+# Description.
+#
+# + email - field description  
+# + password - field description  
+# + userName - field description
+public type NewAdmin record {|
+    string email;
+    string password;
+    string userName;
 |};
 
 # Description.

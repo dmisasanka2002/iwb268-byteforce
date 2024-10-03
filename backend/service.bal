@@ -1,4 +1,5 @@
-import backend.file_read;
+import backend.readCSVFromRequest;
+import backend.recordFromCSV;
 
 import ballerina/http;
 import ballerina/io;
@@ -45,6 +46,10 @@ isolated service /api on new http:Listener(9090) {
 
         }
         return elections;
+    }
+
+    resource function get election/details/[string election_id]() {
+
     }
 
     // success
@@ -112,11 +117,11 @@ isolated service /api on new http:Listener(9090) {
 
     resource function post upload/file/[FileTypes fileType]/[string election_id](http:Request request) returns http:Response|error {
         http:Response response = new;
-        string[][] csvLines = check file_read:extractCSVLines(request);
+        string[][] csvLines = check readCSVFromRequest:extractCSVLines(request);
         // io:println(csvLines); // success
 
         if fileType == CANDIDATES {
-            NewCandidate[] newCandidates = check file_read:createCandidateRecord(csvLines, election_id);
+            NewCandidate[] newCandidates = check recordFromCSV:createCandidateRecord(csvLines, election_id);
 
             foreach var newCandidate in newCandidates {
                 lock {
@@ -126,7 +131,7 @@ isolated service /api on new http:Listener(9090) {
         }
 
         else if fileType == VOTERS {
-            NewVoter[] newVoters = check file_read:createVoterRecord(csvLines, election_id);
+            NewVoter[] newVoters = check recordFromCSV:createVoterRecord(csvLines, election_id);
 
             foreach var newVoter in newVoters {
                 lock {
@@ -135,7 +140,7 @@ isolated service /api on new http:Listener(9090) {
             }
         }
 
-        // Employee[] employees = check file_read:createRecord(csvLines);
+        // Employee[] employees = check recordFromCSV:createEmployeeRecord(csvLines);
         //Returns extracted data in the response. Or can do whatever processing as needed. 
         response.setPayload(csvLines);
 
