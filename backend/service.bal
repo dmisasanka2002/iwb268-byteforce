@@ -112,6 +112,7 @@ isolated service /api on new http:Listener(9090) {
     resource function post upload/file/[FileTypes fileType]/[string election_id](http:Request request) returns http:Response|error {
         http:Response response = new;
         string[][] csvLines = check file_read:extractCSVLines(request);
+        // io:println(csvLines); // success
 
         if fileType == CANDIDATES {
             NewCandidate[] newCandidates = check file_read:createCandidateRecord(csvLines, election_id);
@@ -135,7 +136,7 @@ isolated service /api on new http:Listener(9090) {
 
         // Employee[] employees = check file_read:createRecord(csvLines);
         //Returns extracted data in the response. Or can do whatever processing as needed. 
-        response.setPayload("Data Added Successfully.");
+        response.setPayload(csvLines);
 
         return response;
     }

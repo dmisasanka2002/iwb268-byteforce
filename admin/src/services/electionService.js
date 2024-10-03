@@ -16,6 +16,15 @@ export const createElection = async (electionData) => {
   return response.data;
 };
 
+export const uploadFile = async (file, fileType, electionId) => {
+  const responce = await axios.post(
+    `${backURL}/api/upload/file/${fileType.toUpperCase()}/${electionId}`,
+    file
+  );
+
+  return responce.data;
+};
+
 export const getElectionList = async () => {
   const response = await axios.get(`${backURL}/api/election/list`);
   // console.log(response);

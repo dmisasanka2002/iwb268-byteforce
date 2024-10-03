@@ -1,10 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import "../styles/CsvUploader.css"; // Import the CSS file
+import { uploadFile } from "../services/electionService";
+import { ElectionContext } from "../contexts/ElectionContext";
 
 const CsvUploader = () => {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
+  const { electionId } = useContext(ElectionContext);
   const inputRef = useRef(null); // Create a reference for the hidden file input
+
+  console.log(electionId);
 
   // Handle file input through both drag-and-drop and normal file input
   const handleFileChange = (event) => {
@@ -46,11 +51,20 @@ const CsvUploader = () => {
     inputRef.current.click(); // Simulate a click on the hidden file input
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (file) {
+      // console.log("File submitted:", file);
       // Process the CSV file (send to server or read locally)
-      console.log("File submitted:", file);
+      const formData = new FormData();
+      formData.append(file, file);
+
+      const responce = await uploadFile(
+        formData,
+        "TEST",
+        electionId.toString()
+      );
+      console.log(responce);
     } else {
       alert("Please upload a file first.");
     }

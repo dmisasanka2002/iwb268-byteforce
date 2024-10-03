@@ -173,5 +173,6 @@ public type Voted record {|
 
 public enum FileTypes {
     VOTERS,
-    CANDIDATES
+    CANDIDATES,
+    TEST
 }
