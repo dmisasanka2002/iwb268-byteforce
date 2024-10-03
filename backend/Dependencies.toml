@@ -372,7 +372,6 @@ dependencies = [
 ]
 modules = [
 	{org = "sasanka", packageName = "backend", moduleName = "backend"},
-	{org = "sasanka", packageName = "backend", moduleName = "backend.countdown"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.file_read"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.verifications"}
 ]

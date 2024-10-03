@@ -42,6 +42,7 @@ isolated service /api on new http:Listener(9090) {
         Election[] elections;
         lock {
             elections = check self.db.getElections().clone();
+
         }
         return elections;
     }
