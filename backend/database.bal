@@ -15,13 +15,13 @@ public class Database {
         self.jdbcUrl = string `jdbc:h2:${self.dbPath}/${databaseName}`;
         self.dbClient = check new jdbc:Client(self.jdbcUrl);
 
-        // // Create the USERS table
-        // _ = check self.dbClient->execute(`
-        // CREATE TABLE IF NOT EXISTS USERS (
-        // ID INT AUTO_INCREMENT PRIMARY KEY,
-        // EMAIL VARCHAR(255) UNIQUE NOT NULL,
-        // PASSWORD VARCHAR(50) NOT NULL
-        // )`);
+        // Create the USERS table
+        _ = check self.dbClient->execute(`
+        CREATE TABLE IF NOT EXISTS USERS (
+        ID INT AUTO_INCREMENT PRIMARY KEY,
+        EMAIL VARCHAR(255) UNIQUE NOT NULL,
+        PASSWORD VARCHAR(50) NOT NULL
+        )`);
 
         // Create the ELECTIONS table with DATETIME for start and end times
         _ = check self.dbClient->execute(`
@@ -32,15 +32,16 @@ public class Database {
         END_DATE DATETIME NOT NULL
         )`);
 
-        // Create the CANDIDATES table with a foreign key to ELECTIONS
+        // Create the CANDIDATES table with a composite unique key on (ELECTION_ID, NUMBER)
         _ = check self.dbClient->execute(`
         CREATE TABLE IF NOT EXISTS CANDIDATES (
         ID INT AUTO_INCREMENT PRIMARY KEY,
-        ELECTION_ID INT,
-        NUMBER INT UNIQUE NOT NULL,
+        ELECTION_ID INT NOT NULL,
+        NUMBER INT NOT NULL,
         NAME VARCHAR(255) NOT NULL,
         VOTES INT DEFAULT 0,
-        FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE
+        FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE,
+        UNIQUE (ELECTION_ID, NUMBER)  -- Composite unique key to ensure unique numbers per election
         )`);
 
         // Create the VOTERS table with a foreign key to ELECTIONS
@@ -49,10 +50,11 @@ public class Database {
         ID INT AUTO_INCREMENT PRIMARY KEY,
         ELECTION_ID INT,
         NAME VARCHAR(255) NOT NULL,
-        EMAIL VARCHAR(255) UNIQUE NOT NULL,
-        NIC VARCHAR(50) UNIQUE NOT NULL,
+        EMAIL VARCHAR(255) NOT NULL,
+        NIC VARCHAR(50) NOT NULL,
         HASVOTE BOOL DEFAULT FALSE,
-        FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE
+        FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE,
+        UNIQUE (ELECTION_ID, NIC, EMAIL)
         )`);
     }
 
@@ -113,12 +115,52 @@ public class Database {
         return id is int ? <VoterAdded>{body: {...newVoter, id: id}} : error("Error occurred while retriving the voter id");
     }
 
-    isolated function addVote(Vote newVote) {
+    isolated function addVote(Vote newVote) returns typedesc<Voted>|http:NotFound & readonly|error {
+        // Query to get the candidate by ID
+        sql:ParameterizedQuery query1 = `SELECT * FROM CANDIDATES WHERE ID = ${newVote.candidateId}`;
+        NewCandidate|error candidate = self.dbClient->queryRow(query1);
 
+        // Query to get the voter by ID
+        sql:ParameterizedQuery query2 = `SELECT * FROM VOTERS WHERE ID = ${newVote.voterId}`;
+        NewVoter|error voter = self.dbClient->queryRow(query2);
+
+        // Check if both candidate and voter exist
+        if candidate is NewCandidate && voter is NewVoter {
+            // Ensure the candidate and voter belong to the same election
+            if candidate.election_id == voter.election_id {
+                // Check if the voter has already voted
+                if !voter.hasVote {
+                    // Update the candidate's vote count
+                    sql:ParameterizedQuery updateQuery1 = `UPDATE CANDIDATES SET VOTES = VOTES + 1 WHERE ID = ${newVote.candidateId}`;
+                    _ = check self.dbClient->execute(updateQuery1);
+
+                    // Update the voter's HASVOTE status to true
+                    sql:ParameterizedQuery updateQuery2 = `UPDATE VOTERS SET HASVOTE = true WHERE ID = ${newVote.voterId}`;
+                    _ = check self.dbClient->execute(updateQuery2);
+
+                    // Return the success response
+                    return Voted;
+                } else {
+                    return http:NOT_FOUND; //:NotFound("Voter has already voted.");
+                }
+            } else {
+                return http:NOT_FOUND; //("Candidate and Voter do not belong to the same election.");
+            }
+        } else {
+            return http:NOT_FOUND; //("Candidate or Voter not found.");
+        }
     }
 
-    isolated function getResults(string election_id) {
+    isolated function getResults(string election_id) returns Candidate[]|error {
+        // Query to get candidates for a specific election ID, ordered by votes
+        sql:ParameterizedQuery query = `SELECT * FROM CANDIDATES WHERE ELECTION_ID = ${election_id} ORDER BY VOTES DESC`;
 
+        // Stream the candidates
+        stream<Candidate, sql:Error?> candidateStream = self.dbClient->query(query);
+
+        // Return the stream of candidates
+        return from Candidate candidate in candidateStream
+            select candidate;
     }
 
 }

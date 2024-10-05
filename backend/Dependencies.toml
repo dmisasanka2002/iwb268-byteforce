@@ -377,6 +377,7 @@ dependencies = [
 modules = [
 	{org = "sasanka", packageName = "backend", moduleName = "backend"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.autherization"},
+	{org = "sasanka", packageName = "backend", moduleName = "backend.encryption"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.readCSVFromRequest"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.recordFromCSV"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.verifications"}

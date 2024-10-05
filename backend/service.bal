@@ -80,15 +80,17 @@ isolated service /api on new http:Listener(9090) {
 
     }
 
-    resource function get finalResult/[string election_id]() {
+    resource function get finalResult/[string election_id]() returns error|Candidate[] {
+        Candidate[] results;
         lock {
-            self.db.getResults(election_id);
+            results = check self.db.getResults(election_id).clone();
         }
+        return results;
     }
 
-    resource function put vote(Vote newVote) {
+    resource function put vote(Vote newVote) returns error? {
         lock {
-            self.db.addVote(newVote.clone());
+            typedesc<Voted>|(http:NotFound & readonly) _ = check self.db.addVote(newVote.clone());
         }
     }
 

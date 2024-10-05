@@ -12,7 +12,7 @@ const CandidateList = ({ electionId }) => {
   const [editCandidate, setEditCandidate] = useState(null); // Candidate being edited
 
   const navigate = useNavigate(); // Initialize useNavigate hook
-  
+
   // const { electionId } = useContext(ElectionContext);
 
   const fetchCandidates = async () => {
@@ -84,7 +84,7 @@ const CandidateList = ({ electionId }) => {
         <ul className="candidate-list">
           {candidates.map((candidate) => (
             <li key={candidate.id} className="candidate-item">
-              <span className="candidate-number">{candidate.id}. </span>
+              <span className="candidate-number">{candidate.number}. </span>
               <span className="candidate-name">{candidate.name}</span>
               <button
                 className="edit-btn"
@@ -139,7 +139,10 @@ const CandidateList = ({ electionId }) => {
       )}
 
       {/* Button to navigate to add voters */}
-      <button onClick={handleAddVotersClick} className="w-full px-4 py-3 text-white transition duration-200 bg-red-600 rounded-lg hover:bg-red-700">
+      <button
+        onClick={handleAddVotersClick}
+        className="w-full px-4 py-3 text-white transition duration-200 bg-red-600 rounded-lg hover:bg-red-700"
+      >
         Next For Add Voters
       </button>
     </div>
