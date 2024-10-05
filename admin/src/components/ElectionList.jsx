@@ -1,6 +1,5 @@
 // Not use
 
-
 import React, { useContext } from "react";
 import { ElectionContext } from "../contexts/ElectionContext";
 import "../styles/ElectionList.css";
@@ -36,17 +35,25 @@ const ElectionList = () => {
   };
 
   return (
-    <div className="election-list">
+    <div className="space-y-8">
       {/* Happening Elections */}
-      <div className="happening-elections">
-        <h2>Happening Elections</h2>
+      <div className="happening-elections bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg p-6">
+        <h2 className="text-3xl font-sans text-white mb-4">
+          Happening Elections
+        </h2>
         {happeningElections.length > 0 ? (
           <ul>
             {happeningElections.map((election, index) => (
-              <li key={index} id={election.id}>
-                <div className="name">{election.name}</div>
+              <li
+                key={index}
+                className="flex justify-between items-center border border-neutral-300 rounded-md p-3 mb-2 py-2"
+              >
+                <div className="name text-lg  font-medium">{election.name}</div>
                 <div className="buttons">
-                  <button className="see-results-button" disabled>
+                  <button
+                    className="bg-gray-400 text-white rounded-full px-4 py-1 cursor-not-allowed"
+                    disabled
+                  >
                     See Results
                   </button>
                 </div>
@@ -54,23 +61,34 @@ const ElectionList = () => {
             ))}
           </ul>
         ) : (
-          <p>No ongoing elections.</p>
+          <p className="text-white">No ongoing elections.</p>
         )}
       </div>
 
       {/* Upcoming Elections */}
-      <div className="upcoming-elections">
-        <h2>Upcoming Elections</h2>
+      <div className="upcoming-elections bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg p-6">
+        <h2 className="text-3xl font-sans text-white mb-4">
+          Upcoming Elections
+        </h2>
         {upcomingElections.length > 0 ? (
           <ul>
             {upcomingElections.map((election, index) => (
-              <li key={index} id={election.id}>
-                <div className="name">{election.name}</div>
-                <div className="buttons">
-                  <button onClick={(e) => handleButtonClick(e, election.id)}>
+              <li
+                key={index}
+                className="flex justify-between items-center border border-neutral-300 rounded-md p-3 mb-2"
+              >
+                <div className="name text-lg font-medium">{election.name}</div>
+                <div className="buttons space-x-2">
+                  <button
+                    onClick={(e) => handleButtonClick(e, election.id)}
+                    className="bg-blue-800 text-white rounded-full px-4 py-1 hover:bg-blue-700 transition duration-200"
+                  >
                     Add Candidates
                   </button>
-                  <button onClick={(e) => handleButtonClick(e, election.id)}>
+                  <button
+                    onClick={(e) => handleButtonClick(e, election.id)}
+                    className="bg-green-600 text-white rounded-full px-4 py-1 hover:bg-green-700 transition duration-200"
+                  >
                     Add Voters
                   </button>
                 </div>
@@ -78,20 +96,26 @@ const ElectionList = () => {
             ))}
           </ul>
         ) : (
-          <p>No upcoming elections.</p>
+          <p className="text-white">No upcoming elections.</p>
         )}
       </div>
 
       {/* Closed Elections */}
-      <div className="closed-elections">
-        <h2>Closed Elections</h2>
+      <div className="closed-elections bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg p-6">
+        <h2 className="text-3xl font-sans text-white mb-4">Closed Elections</h2>
         {closedElections.length > 0 ? (
           <ul>
             {closedElections.map((election, index) => (
-              <li key={index} id={election.id}>
-                <div className="name">{election.name}</div>
+              <li
+                key={index}
+                className="flex justify-between items-center border border-neutral-300 rounded-md p-3 mb-2"
+              >
+                <div className="name text-lg font-medium">{election.name}</div>
                 <div className="buttons">
-                  <button onClick={(e) => handleButtonClick(e, election.id)}>
+                  <button
+                    onClick={(e) => handleButtonClick(e, election.id)}
+                    className="bg-blue-800 text-white rounded-full px-4 py-1 hover:bg-blue-700 transition duration-200"
+                  >
                     See Results
                   </button>
                 </div>
@@ -99,7 +123,7 @@ const ElectionList = () => {
             ))}
           </ul>
         ) : (
-          <p>No closed elections.</p>
+          <p className="text-white">No closed elections.</p>
         )}
       </div>
     </div>
