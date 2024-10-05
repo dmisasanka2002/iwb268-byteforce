@@ -2,14 +2,17 @@ import React, { useState, useRef, useContext } from "react";
 import "../styles/CsvUploader.css"; // Import the CSS file
 import { uploadFile } from "../services/electionService";
 import { ElectionContext } from "../contexts/ElectionContext";
+import { useParams } from "react-router-dom";
+
 
 const CsvUploader = ({ fileType }) => {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
-  const { electionId } = useContext(ElectionContext);
+  // const { electionId } = useContext(ElectionContext);
   const inputRef = useRef(null); // Create a reference for the hidden file input
 
-  console.log(electionId);
+  const { id: electionId } = useParams(); // Destructure and rename id to electionId
+  console.log(electionId,"CSV Uploader")
 
   // Handle file input through both drag-and-drop and normal file input
   const handleFileChange = (event) => {
@@ -107,8 +110,8 @@ const CsvUploader = ({ fileType }) => {
           )}
         </div>
 
-        <button type="submit" className="submit-btn">
-          Submit
+        <button type="submit" className="w-full px-4 py-2 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+          Add Via CSV File
         </button>
       </form>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import VoterLogin from "../components/VoterLogin";
-import "../styles/VoterPage.css"; // Custom CSS for styling
+// import "../styles/VoterPage.css"; // Custom CSS for styling
 
 const VoterPage = () => {
   return (

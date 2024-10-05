@@ -1,3 +1,6 @@
+// Not use
+
+
 import React, { useContext } from "react";
 import { ElectionContext } from "../contexts/ElectionContext";
 import "../styles/ElectionList.css";

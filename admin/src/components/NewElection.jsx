@@ -8,12 +8,13 @@ const NewElection = () => {
     <div>
       <div className="new-election">
         {/* Election Form */}
-        <div className="form-container">
+        {/* <div className="form-container">
           <h2>Create New Election</h2>
-          <ElectionForm />
-        </div>
+        </div> */}
+        <ElectionForm />
+
       </div>
-      <ElectionList />
+      {/* <ElectionList /> */}
     </div>
   );
 };
