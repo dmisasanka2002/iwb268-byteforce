@@ -4,7 +4,7 @@ import { getCandidates, updateCandidate } from "../services/electionService"; //
 import "../styles/CandidateList.css"; // Import CSS for styling
 import { ElectionContext } from "../contexts/ElectionContext";
 
-const CandidateList = () => {
+const CandidateList = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -12,7 +12,8 @@ const CandidateList = () => {
   const [editCandidate, setEditCandidate] = useState(null); // Candidate being edited
 
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const { electionId } = useContext(ElectionContext);
+  
+  // const { electionId } = useContext(ElectionContext);
 
   const fetchCandidates = async () => {
     try {
@@ -73,7 +74,7 @@ const CandidateList = () => {
 
   return (
     <div className="candidate-list-container">
-      <h2 className="list-title">Candidate List</h2>
+      <h2 className="font-sans font-semibold list-title">Candidate List</h2>
 
       {loading ? (
         <p>Loading candidates...</p>
@@ -138,8 +139,8 @@ const CandidateList = () => {
       )}
 
       {/* Button to navigate to add voters */}
-      <button onClick={handleAddVotersClick} className="add-voters-btn">
-        Add Voters
+      <button onClick={handleAddVotersClick} className="w-full px-4 py-3 text-white transition duration-200 bg-red-600 rounded-lg hover:bg-red-700">
+        Next For Add Voters
       </button>
     </div>
   );
