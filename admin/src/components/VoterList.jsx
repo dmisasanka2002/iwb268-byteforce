@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import "../styles/VoterList.css"; // Import CSS for styling
 import { ElectionContext } from "../contexts/ElectionContext";
 
-const VoterList = () => {
+const VoterList = ({ electionId }) => {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  console.log(electionId,"votersList")
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const { electionId } = useContext(ElectionContext);
+  // const { electionId } = useContext(ElectionContext);
 
   const fetchVoters = async () => {
     try {
@@ -35,7 +35,7 @@ const VoterList = () => {
 
   // Function to navigate to the root path
   const handleNextClick = () => {
-    navigate("/"); // Navigate to the root path
+    navigate("/admin-dashboard"); // Navigate to the root path
   };
 
   return (
@@ -59,8 +59,8 @@ const VoterList = () => {
       )}
 
       {/* Button to navigate to the root path */}
-      <button onClick={handleNextClick} className="next-btn">
-        Next
+      <button onClick={handleNextClick} className="w-full px-4 py-3 text-white transition duration-200 bg-red-600 rounded-lg hover:bg-red-700">
+        Finish and Return Main
       </button>
     </div>
   );
