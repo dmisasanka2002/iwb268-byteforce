@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import VoterPage from "./pages/VoterPage";
 import "./App.css";
-import ElectionList from "./components/ElectionList";
+// import ElectionList from "./components/ElectionList";
 import ElectionContextProvider from "./contexts/ElectionContext";
 import VotePage from "./pages/VotePage";
 
@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<VoterPage />} />
-          <Route path="/election/list" element={<ElectionList />} />
+          {/* <Route path="/election/list" element={<ElectionList />} /> */}
           <Route path="/voter/vote" element={<VotePage electionId={id} />} />
         </Routes>
       </Router>
