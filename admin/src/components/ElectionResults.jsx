@@ -15,6 +15,7 @@ const ElectionResults = ({ electionId }) => {
     fetchResults();
   }, [electionId]);
 
+  // TODO: Decorate this component, add logic to calculate percentage of votes
   return (
     <div className="results-container">
       <h2 className="results-title">Election Results</h2>

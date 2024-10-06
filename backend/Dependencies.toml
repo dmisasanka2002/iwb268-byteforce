@@ -380,6 +380,7 @@ modules = [
 	{org = "sasanka", packageName = "backend", moduleName = "backend.encryption"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.readCSVFromRequest"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.recordFromCSV"},
+	{org = "sasanka", packageName = "backend", moduleName = "backend.timeConvert"},
 	{org = "sasanka", packageName = "backend", moduleName = "backend.verifications"}
 ]
 

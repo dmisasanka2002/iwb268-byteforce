@@ -10,6 +10,8 @@ export const getCandidates = async (electionId) => {
 };
 
 export const castVote = async (voteData) => {
-  const response = await axios.post(`${backURL}/api/votes`, voteData);
+  const response = await axios.put(`${backURL}/api/vote`, voteData);
+  console.log(response);
+
   return response.data;
 };

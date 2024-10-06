@@ -15,7 +15,7 @@ const VotePage = ({ electionId }) => {
 
   useEffect(() => {
     const fetchCandidates = async () => {
-      const response = await getCandidates(1);
+      const response = await getCandidates(id);
       setCandidates(response);
     };
 
@@ -29,8 +29,15 @@ const VotePage = ({ electionId }) => {
   };
 
   const handleConfirmVote = async () => {
+    // console.log(candidateToVote);
+    //TODO: Add logic to cast vote - Should be change the voterId, voterNic dynamically.
     if (!hasVoted && candidateToVote) {
-      await castVote({ electionId, candidateId: candidateToVote });
+      await castVote({
+        election_id: parseInt(id),
+        candidateId: parseInt(candidateToVote.id),
+        voterId: 3,
+        voterNic: "123467",
+      });
       setHasVoted(true);
       setShowModal(false); // Hide the modal after vote
       alert("Vote cast successfully!");

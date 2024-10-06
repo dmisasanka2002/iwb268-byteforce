@@ -1,5 +1,6 @@
 import backend.readCSVFromRequest;
 import backend.recordFromCSV;
+import backend.timeConvert;
 
 import ballerina/http;
 import ballerina/io;
@@ -39,13 +40,19 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success
-    resource function get election/list() returns Election[]|error {
-        Election[] elections;
+    resource function get election/list() returns string|timeConvert:ElectionData[]|error {
         lock {
-            elections = check self.db.getElections().clone();
+            timeConvert:ElectionData[] electionData = [];
+            Election[] elections = check self.db.getElections().clone();
+            foreach var election in elections.clone() {
+                timeConvert:Times times = check timeConvert:convertTimes([election.clone().startDate, election.clone().endDate]);
 
+                electionData.push({name: election.clone().name, id: election.clone().id, startDate: times.startTime, endDate: times.endTime});
+
+            }
+            return electionData.clone();
         }
-        return elections;
+
     }
 
     resource function get election/details/[string election_id]() {
@@ -89,8 +96,10 @@ isolated service /api on new http:Listener(9090) {
     }
 
     resource function put vote(Vote newVote) returns error? {
+        // io:println(newVote);
         lock {
-            typedesc<Voted>|(http:NotFound & readonly) _ = check self.db.addVote(newVote.clone());
+            typedesc<Voted>|(http:NotFound & readonly) results = check self.db.addVote(newVote.clone());
+            io:println(results);
         }
     }
 

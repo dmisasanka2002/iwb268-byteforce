@@ -1,5 +1,6 @@
 import ballerina/file;
 import ballerina/http;
+import ballerina/io;
 import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
@@ -116,16 +117,21 @@ public class Database {
     }
 
     isolated function addVote(Vote newVote) returns typedesc<Voted>|http:NotFound & readonly|error {
+        io:println(newVote.clone());
         // Query to get the candidate by ID
         sql:ParameterizedQuery query1 = `SELECT * FROM CANDIDATES WHERE ID = ${newVote.candidateId}`;
-        NewCandidate|error candidate = self.dbClient->queryRow(query1);
+        Candidate|error candidate = self.dbClient->queryRow(query1);
+
+        io:println(candidate.clone());
 
         // Query to get the voter by ID
         sql:ParameterizedQuery query2 = `SELECT * FROM VOTERS WHERE ID = ${newVote.voterId}`;
-        NewVoter|error voter = self.dbClient->queryRow(query2);
+        Voter|error voter = self.dbClient->queryRow(query2);
+
+        io:println(voter.clone());
 
         // Check if both candidate and voter exist
-        if candidate is NewCandidate && voter is NewVoter {
+        if candidate is Candidate && voter is Voter {
             // Ensure the candidate and voter belong to the same election
             if candidate.election_id == voter.election_id {
                 // Check if the voter has already voted

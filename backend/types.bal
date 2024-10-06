@@ -152,11 +152,13 @@ public type NewAdmin record {|
 #
 # + candidateId - field description  
 # + voterId - field description  
-# + voterNic - field description
+# + voterNic - field description  
+# + election_id - field description
 public type Vote record {|
     int candidateId;
     int voterId;
-    int voterNic;
+    string voterNic;
+    int election_id;
 |};
 
 # Description.

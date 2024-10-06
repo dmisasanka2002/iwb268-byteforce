@@ -19,20 +19,19 @@ const ElectionContextProvider = (props) => {
 
   const filterElectionList = (response) => {
     console.log(response);
-    // for test
-    setClosedElections(response);
-    setHappeningElections(response);
-    setUpcomingElections(response);
-
-    // setUpcomingElections(
-    //   response.filter((election) => new Date(election.endTime) > new Date())
-    // );
-    // setHappeningElections(
-    //   response.filter((election) => new Date(election.endTime) < new Date())
-    // );
-    // setClosedElections(
-    //   response.filter((election) => new Date(election.endTime) < new Date())
-    // );
+    setUpcomingElections(
+      response.filter((election) => new Date(election.startDate) > new Date())
+    );
+    setHappeningElections(
+      response.filter(
+        (election) =>
+          new Date(election.startDate) < new Date() &&
+          new Date(election.endDate) > new Date()
+      )
+    );
+    setClosedElections(
+      response.filter((election) => new Date(election.endDate) < new Date())
+    );
   };
 
   const fetchElectionList = async () => {

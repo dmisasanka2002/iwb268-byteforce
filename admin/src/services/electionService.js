@@ -27,7 +27,7 @@ export const uploadFile = async (file, fileType, electionId) => {
 
 export const getElectionList = async () => {
   const response = await axios.get(`${backURL}/api/election/list`);
-  // console.log(response);
+  console.log(response);
 
   return response.data;
 };
