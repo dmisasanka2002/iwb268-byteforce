@@ -1,9 +1,12 @@
+import backend.autherization;
 import backend.readCSVFromRequest;
 import backend.recordFromCSV;
 import backend.timeConvert;
+import backend.validations;
 
 import ballerina/http;
 import ballerina/io;
+import ballerina/jwt;
 import ballerina/time;
 
 # A service representing a network-accessible API
@@ -23,9 +26,8 @@ isolated service /api on new http:Listener(9090) {
         self.db = check new Database("Election");
     }
 
-    // success - "startDate":{"timeAbbrev":"Z","dayOfWeek":2,"year":2024,"month":10,"day":1,"hour":9,"minute":16,"second":0},
+    // success
     resource function post election/create(@http:Payload json data) returns ElectionAdded|http:BadRequest|error {
-        // io:println(data.clone());
         ElectionAdded|http:BadRequest election;
         NewElection newElection = {
             name: check data.name,
@@ -55,6 +57,21 @@ isolated service /api on new http:Listener(9090) {
 
     }
 
+    resource function get election/eligible/list/[string voterNIC]() returns timeConvert:ElectionData[]|error {
+        lock {
+            timeConvert:ElectionData[] electionData = [];
+            Election[] elections = check self.db.getElegibleList(voterNIC).clone();
+            foreach var election in elections.clone() {
+                timeConvert:Times times = check timeConvert:convertTimes([election.clone().startDate, election.clone().endDate]);
+
+                electionData.push({name: election.clone().name, id: election.clone().id, startDate: times.startTime, endDate: times.endTime});
+
+            }
+            return electionData.clone();
+        }
+    }
+
+    // TODO: implement this method to get election details such as percentage of vote, and analytics.
     resource function get election/details/[string election_id]() {
 
     }
@@ -78,15 +95,41 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success
-    resource function get voter/[string nic]() returns Voter|http:NotFound {
+    resource function get voter/verify/nic/[string nic]() returns error|Voter|http:NotFound {
         Voter|http:NotFound voter;
-        lock {
-            voter = self.db.getVoter(nic = nic).clone();
+
+        boolean|error verifyNIC = validations:verifyNIC(nic);
+
+        if verifyNIC is boolean {
+            lock {
+                voter = self.db.getVoter(nic = nic).clone();
+            }
+            return voter is Voter ? voter : http:NOT_FOUND;
         }
-        return voter is Voter ? voter : http:NOT_FOUND;
+        return verifyNIC;
 
     }
 
+    // success
+    resource function post voter/verify/credential(http:Request request) returns error|Voter|http:NotFound {
+        json jsonPayload = check request.getJsonPayload();
+        [jwt:Header, jwt:Payload] decodeJwt = check autherization:decodeJwt(check jsonPayload.credential);
+
+        jwt:Payload payload = decodeJwt[1];
+        string email = <string>payload["email"];
+        string nic = check jsonPayload.nic;
+
+        io:println(email);
+        io:println(nic);
+
+        Voter|http:NotFound voter;
+        lock {
+            voter = self.db.getVoter(nic = nic, email = email).clone();
+        }
+        return voter is Voter ? voter : http:NOT_FOUND;
+    }
+
+    // success
     resource function get finalResult/[string election_id]() returns error|Candidate[] {
         Candidate[] results;
         lock {
@@ -95,11 +138,15 @@ isolated service /api on new http:Listener(9090) {
         return results;
     }
 
-    resource function put vote(Vote newVote) returns error? {
-        // io:println(newVote);
+    // success
+    resource function put vote(Vote newVote) returns http:NotFound & readonly|http:Ok & readonly|error {
         lock {
             typedesc<Voted>|(http:NotFound & readonly) results = check self.db.addVote(newVote.clone());
-            io:println(results);
+
+            if results is http:NotFound {
+                return http:NOT_FOUND;
+            }
+            return http:OK;
         }
     }
 
@@ -107,7 +154,6 @@ isolated service /api on new http:Listener(9090) {
     resource function post addCandidate(NewCandidate newCandidate) returns CandidateAdded|http:BadRequest|error {
         CandidateAdded|http:BadRequest candidate;
         lock {
-            io:println(newCandidate.clone());
             candidate = check self.db.addCandidate(newCandidate.clone()).clone();
         }
         return candidate;
@@ -115,21 +161,29 @@ isolated service /api on new http:Listener(9090) {
 
     // success
     resource function post addVoter(NewVoter newVoter) returns VoterAdded|http:BadRequest|error {
-        VoterAdded|http:BadRequest voter;
-        lock {
-            voter = check self.db.addVoter(newVoter.clone()).clone();
+        boolean|error verifyNIC = validations:verifyNIC(newVoter.nic);
+        boolean|error verifyEmail = validations:VerifyEmail(newVoter.email);
+
+        if verifyNIC is boolean && verifyEmail is boolean {
+            lock {
+                VoterAdded|error voter = self.db.addVoter(newVoter.clone()).clone();
+
+                return voter.clone();
+            }
         }
-        return voter;
+        else if verifyNIC is error {
+            return error("Check the NIC again.");
+        }
+        else if verifyEmail is error {
+            return error("Check the email again.");
+        }
+        return http:BAD_REQUEST;
     }
 
-    resource function post auth/voter() {
-
-    }
-
+    // success
     resource function post upload/file/[FileTypes fileType]/[string election_id](http:Request request) returns http:Response|error {
         http:Response response = new;
         string[][] csvLines = check readCSVFromRequest:extractCSVLines(request);
-        // io:println(csvLines); // success
 
         if fileType == CANDIDATES {
             NewCandidate[] newCandidates = check recordFromCSV:createCandidateRecord(csvLines, election_id);
@@ -150,9 +204,6 @@ isolated service /api on new http:Listener(9090) {
                 }
             }
         }
-
-        // Employee[] employees = check recordFromCSV:createEmployeeRecord(csvLines);
-        //Returns extracted data in the response. Or can do whatever processing as needed. 
         response.setPayload(csvLines);
 
         return response;

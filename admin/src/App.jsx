@@ -9,7 +9,6 @@ import ElectionDetailPage from "./pages/ElectionDetailPage";
 import "./App.css";
 import AdminDashboard from "./components/AdminDashboard";
 import NewElection from "./components/NewElection";
-import ElectionList from "./components/ElectionList";
 import ElectionContextProvider from "./contexts/ElectionContext";
 import CandidateForm from "./components/CandidateForm";
 import VoterForm from "./components/VoterForm";
@@ -24,7 +23,6 @@ function App() {
           <Route path="/" element={<AdminLogin />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/election/new" element={<NewElection />} />
-          <Route path="/election/list" element={<ElectionList />} />
           <Route
             path="/election/:id/add/candidates"
             element={<CandidateForm />}

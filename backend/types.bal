@@ -190,6 +190,15 @@ public type Voted record {|
     *http:Ok;
 |};
 
+# Description.
+#
+# + isSuccess - field description  
+# + message - field description
+public type Sucess record {
+    boolean isSuccess;
+    string message;
+};
+
 public enum FileTypes {
     VOTERS,
     CANDIDATES,

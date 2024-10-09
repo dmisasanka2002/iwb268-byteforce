@@ -8,6 +8,15 @@ export const getElectionList = async () => {
   return response.data;
 };
 
+export const getElegibleElectionList = async (voterNIC) => {
+  const response = await axios.get(
+    `${backURL}/api/election/eligible/list/${voterNIC}`
+  );
+  // console.log(response);
+
+  return response.data;
+};
+
 export const getCandidates = async (electionId) => {
   // console.log(electionId);
   try {
