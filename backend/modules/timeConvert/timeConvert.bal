@@ -58,6 +58,10 @@ public isolated function civilToIsoString(time:Civil time) returns string|error 
     return string `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZone}`;
 }
 
+# Description.
+#
+# + times - parameter description
+# + return - return value description
 public isolated function convertTimes(time:Civil[] times) returns Times|error {
     Times isoStrings = {startTime: "", endTime: ""};
     isoStrings.startTime = check civilToIsoString(times[0]);

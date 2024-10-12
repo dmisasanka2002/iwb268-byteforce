@@ -1,5 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import { getElectionList } from "../services/electionService";
+import {
+  getElectionList,
+  getElegibleElectionList,
+} from "../services/electionService";
 
 export const ElectionContext = createContext({});
 
@@ -8,6 +11,7 @@ const ElectionContextProvider = (props) => {
   const [elections, setElections] = useState([]); // Store created elections
   const [happeningElections, setHappeningElections] = useState([]);
   const [voterId, setVorterId] = useState(null);
+  const [nic, setNic] = useState("");
 
   const [election, setElection] = useState({
     title: "",
@@ -25,17 +29,13 @@ const ElectionContextProvider = (props) => {
     );
   };
 
-  const fetchElectionList = async () => {
-    const response = await getElectionList();
+  const fetchElectionList = async (nic) => {
+    const response = await getElegibleElectionList(nic);
     console.log(response);
 
     setElections(response);
     filterElectionList(response);
   };
-
-  useEffect(() => {
-    fetchElectionList();
-  }, []);
 
   const values = {
     electionId,
@@ -47,6 +47,9 @@ const ElectionContextProvider = (props) => {
     happeningElections,
     voterId,
     setVorterId,
+    nic,
+    setNic,
+    fetchElectionList,
   };
 
   return (
