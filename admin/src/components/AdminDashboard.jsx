@@ -16,12 +16,6 @@ const AdminDashboard = () => {
             >
               Create New Election
             </Link>
-            <Link
-              to="/election/about"
-              className="border border-white rounded-full px-5 py-3 text-white hover:bg-white hover:text-gray-800 transition duration-200"
-            >
-              About Us
-            </Link>
           </nav>
         </div>
       </div>

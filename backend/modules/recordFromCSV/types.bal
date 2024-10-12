@@ -25,10 +25,3 @@ public type NewVoter record {|
     string nic;
     boolean hasVote = false;
 |};
-
-public type Employee record {|
-    string name;
-    int age;
-    decimal salary;
-    boolean isMarried;
-|};

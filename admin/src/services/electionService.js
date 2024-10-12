@@ -57,6 +57,15 @@ export const getElectionResults = async (electionId) => {
   return response.data;
 };
 
+export const getAssignedVoters = async (electionId) => {
+  const response = await axios.get(
+    `${backURL}/api/elections/${electionId}/assigned_voters`
+  );
+  console.log(response);
+  const data = await response.data;
+  return data; // Assuming the API returns this field
+};
+
 export const getCandidates = async (electionId) => {
   // console.log(electionId);
   try {

@@ -18,7 +18,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<VoterPage />} />
-          {/* <Route path="/election/list" element={<ElectionList />} /> */}
           <Route
             path="/voter/vote/:id"
             element={<VotePage electionId={id} />}
