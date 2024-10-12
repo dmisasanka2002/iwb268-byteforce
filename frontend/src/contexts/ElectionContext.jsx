@@ -7,8 +7,7 @@ const ElectionContextProvider = (props) => {
   const [electionId, setElectionId] = useState(null);
   const [elections, setElections] = useState([]); // Store created elections
   const [happeningElections, setHappeningElections] = useState([]);
-  const [voterId, setVorterId] = useState(null);
-  const [nic, setNic] = useState("");
+  const [nic, setNic] = useState(null);
 
   const [election, setElection] = useState({
     title: "",
@@ -28,7 +27,6 @@ const ElectionContextProvider = (props) => {
 
   const fetchElectionList = async (nic) => {
     const response = await getElegibleElectionList(nic);
-    console.log(response);
 
     setElections(response);
     filterElectionList(response);
@@ -42,8 +40,6 @@ const ElectionContextProvider = (props) => {
     election,
     setElection,
     happeningElections,
-    voterId,
-    setVorterId,
     nic,
     setNic,
     fetchElectionList,

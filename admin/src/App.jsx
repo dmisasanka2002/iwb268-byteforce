@@ -13,11 +13,14 @@ import ElectionContextProvider from "./contexts/ElectionContext";
 import CandidateForm from "./components/CandidateForm";
 import VoterForm from "./components/VoterForm";
 import AdminLogin from "./components/AdminLogin";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { id } = useParams();
   return (
     <ElectionContextProvider>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/" element={<AdminLogin />} />

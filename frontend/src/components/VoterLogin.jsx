@@ -4,14 +4,14 @@ import { GoogleLogin } from "@react-oauth/google";
 import HappeningElections from "./HappeningElections";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { verifyVoterEmail, verifyVoterNIC } from "../services/authService";
+import { toast } from "react-toastify";
 
 const VoterLogin = () => {
   const [isNICVerified, setIsNICVerified] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState(""); // For error handling
 
-  const { nic, setNic, setVorterId, fetchElectionList } =
-    useContext(ElectionContext);
+  const { nic, setNic, fetchElectionList } = useContext(ElectionContext);
 
   const handleLogin = async (credentialResponse) => {
     setError(""); // Reset error message
@@ -23,13 +23,14 @@ const VoterLogin = () => {
       nic: nic.toString(),
     });
 
-    if (res) {
-      setVorterId(res.data.id);
-
+    if (res.data.isSuccess || res.status == 200) {
       fetchElectionList(nic);
       setIsVerified(true);
     } else {
       setError("Verification failed. Please check your email and NIC."); // Display error
+      toast.error(
+        `Verification failed. Please check your email .  \n${res.data.message}`
+      );
     }
   };
 
@@ -44,12 +45,13 @@ const VoterLogin = () => {
     }
 
     const res = await verifyVoterNIC(nic);
-    if (res.status == 200) {
+
+    if (res.data.isSuccess || res.status == 200) {
+      toast.success(res.statusText);
       setIsNICVerified(true);
-    } else if (res.status == 404) {
-      setError("You haven't registerd"); // Display error
     } else {
-      setError("Verification failed. Please check your NIC."); // Display error
+      setError(res.data.message); // Display error
+      toast.error(res.data.message);
     }
   };
 
@@ -71,7 +73,6 @@ const VoterLogin = () => {
             <form className="space-y-4" onSubmit={handleNICLogin}>
               <input
                 type="text"
-                value={nic}
                 onChange={(e) => setNic(e.target.value)}
                 placeholder="Enter Your NIC Number Here"
                 required

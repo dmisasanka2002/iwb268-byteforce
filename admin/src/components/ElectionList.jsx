@@ -1,5 +1,3 @@
-// Not use
-
 import React, { useContext } from "react";
 import { ElectionContext } from "../contexts/ElectionContext";
 import "../styles/ElectionList.css";
@@ -34,6 +32,18 @@ const ElectionList = () => {
     }
   };
 
+  const formatDateTime = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    return new Date(dateString).toLocaleString(undefined, options);
+  };
+
   return (
     <div className="space-y-8">
       {/* Happening Elections */}
@@ -48,7 +58,13 @@ const ElectionList = () => {
                 key={index}
                 className="flex justify-between items-center border border-neutral-300 rounded-md p-3 mb-2 py-2"
               >
-                <div className="name text-lg  font-medium">{election.name}</div>
+                <div className="name text-lg font-medium">
+                  {election.name}
+                  <span className="text-sm text-gray-300 ml-2">
+                    ({formatDateTime(election.startDate)} -{" "}
+                    {formatDateTime(election.endDate)})
+                  </span>
+                </div>
                 <div className="buttons">
                   <button
                     className="bg-gray-400 text-white rounded-full px-4 py-1 cursor-not-allowed"
@@ -77,7 +93,13 @@ const ElectionList = () => {
                 key={index}
                 className="flex justify-between items-center border border-neutral-300 rounded-md p-3 mb-2"
               >
-                <div className="name text-lg font-medium">{election.name}</div>
+                <div className="name text-lg font-medium">
+                  {election.name}
+                  <span className="text-sm text-gray-300 ml-2">
+                    ({formatDateTime(election.startDate)} -{" "}
+                    {formatDateTime(election.endDate)})
+                  </span>
+                </div>
                 <div className="buttons space-x-2">
                   <button
                     onClick={(e) => handleButtonClick(e, election.id)}
@@ -110,7 +132,13 @@ const ElectionList = () => {
                 key={index}
                 className="flex justify-between items-center border border-neutral-300 rounded-md p-3 mb-2"
               >
-                <div className="name text-lg font-medium">{election.name}</div>
+                <div className="name text-lg font-medium">
+                  {election.name}
+                  <span className="text-sm text-gray-300 ml-2">
+                    ({formatDateTime(election.startDate)} -{" "}
+                    {formatDateTime(election.endDate)})
+                  </span>
+                </div>
                 <div className="buttons">
                   <button
                     onClick={(e) => handleButtonClick(e, election.id)}

@@ -3,7 +3,8 @@ import { getCandidates, castVote } from "../services/voteService";
 import { useParams } from "react-router-dom";
 // import "../styles/VotePage.css";
 import ConfirmationModal from "../components/ConfirmationModal";
-import { ElectionContext } from "../../../admin/src/contexts/ElectionContext";
+import { ElectionContext } from "../contexts/ElectionContext";
+import { toast } from "react-toastify";
 
 const VotePage = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
@@ -12,7 +13,7 @@ const VotePage = ({ electionId }) => {
   const [showModal, setShowModal] = useState(false);
   const [candidateToVote, setCandidateToVote] = useState(null);
 
-  const { nic, vorterId } = useContext(ElectionContext);
+  const { nic } = useContext(ElectionContext);
 
   const { id } = useParams();
 
@@ -26,26 +27,28 @@ const VotePage = ({ electionId }) => {
   }, [electionId]);
 
   const handleVoteClick = (candidate) => {
-    console.log(nic);
-
     setCandidateToVote(candidate); // Save the candidate to vote for
     setMessage(`Are you sure you want to vote for ${candidate?.name}?`);
     setShowModal(true); // Show the confirmation modal
   };
 
   const handleConfirmVote = async () => {
-    // console.log(candidateToVote);
-    //TODO: Add logic to cast vote - Should be change the voterId, voterNic dynamically.
     if (!hasVoted && candidateToVote) {
-      await castVote({
+      const res = await castVote({
         election_id: parseInt(id),
         candidateId: parseInt(candidateToVote.id),
-        voterId: vorterId,
         voterNic: nic,
       });
-      setHasVoted(true);
-      setShowModal(false); // Hide the modal after vote
-      alert("Vote cast successfully!");
+
+      if (res.isSuccess) {
+        setHasVoted(true);
+        setShowModal(false); // Hide the modal after vote
+        alert("Vote cast successfully!");
+        toast.success("Vote cast successfully!");
+      } else {
+        // alert(res.message);
+        toast.error(res.message);
+      }
     }
   };
 
@@ -53,8 +56,6 @@ const VotePage = ({ electionId }) => {
     setShowModal(false); // Close the modal on cancel
     setCandidateToVote(null); // Reset the selected candidate
   };
-
-  // console.log(candidateToVote);
 
   return (
     <div

@@ -10,10 +10,12 @@ export const getCandidates = async (electionId) => {
 };
 
 export const castVote = async (voteData) => {
-  console.log(voteData);
+  try {
+    // TODO: Shold be checked the vote function.
+    const response = await axios.post(`${backURL}/api/vote`, voteData);
 
-  const response = await axios.put(`${backURL}/api/vote`, voteData);
-  console.log(response);
-
-  return response.data;
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };

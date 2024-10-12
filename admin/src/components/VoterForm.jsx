@@ -5,6 +5,7 @@ import CsvUploader from "./CsvUploader";
 import VoterList from "./VoterList";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const VoterForm = () => {
   const [name, setName] = useState("");
@@ -14,9 +15,7 @@ const VoterForm = () => {
   const [error, setError] = useState("");
   const fileType = "VOTERS"; // VOTERS
 
-  // const { electionId } = useContext(ElectionContext);
   const { id: electionId } = useParams(); // Destructure and rename id to electionId
-  console.log(electionId, "VoterForm");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,17 +24,24 @@ const VoterForm = () => {
       return;
     }
     setError("");
-    await addVoter({
+    const res = await addVoter({
       name,
       nic: voterNic,
       email: voterEmail,
       election_id: parseInt(electionId),
     });
-    setName(""); // Clear form
-    setVoterNic(""); // Clear form
-    setVoterEmail("");
-    setMessage("Voter added successfully!");
-    setTimeout(() => setMessage(""), 3000); // Clear success message after 3 seconds
+
+    if (res.isSuccess) {
+      setName(""); // Clear form
+      setVoterNic(""); // Clear form
+      setVoterEmail("");
+      setMessage("Voter added successfully!");
+      toast.success("Voter added successfully!");
+      setTimeout(() => setMessage(""), 3000); // Clear success message after 3 seconds
+    } else {
+      setError(res.response.data.message);
+      toast.error("Unique index or primary key violation");
+    }
   };
 
   return (
