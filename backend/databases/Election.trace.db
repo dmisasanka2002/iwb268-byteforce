@@ -1,0 +1,355 @@
+2024-10-07 18:24:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-09 19:58:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM ELECTIONS,VOTERS [*]ON VOTERS.ELECTION_ID = ELECTIONS.ID AND VOTERS.NIC =  ? "; SQL statement:
+SELECT * FROM ELECTIONS,VOTERS ON VOTERS.ELECTION_ID = ELECTIONS.ID AND VOTERS.NIC =  ?  [42000-220]
+2024-10-09 20:09:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "ID"; SQL statement:
+SELECT ID,NAME,END_DATE,START_DATE FROM ELECTIONS E LEFT JOIN VOTERS V ON V.ELECTION_ID = E.ID AND V.NIC =  ?  [90059-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:197)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:175)
+	at org.h2.command.query.Select.mapColumns(Select.java:1558)
+	at org.h2.command.query.Select.init(Select.java:1100)
+	at org.h2.command.Parser.parseQuery(Parser.java:2627)
+	at org.h2.command.Parser.parsePrepared(Parser.java:732)
+	at org.h2.command.Parser.parse(Parser.java:697)
+	at org.h2.command.Parser.parse(Parser.java:669)
+	at org.h2.command.Parser.prepareCommand(Parser.java:577)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:634)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:557)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:92)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:288)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:315)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.nativeQueryExecutable(QueryProcessor.java:118)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.lambda$nativeQuery$0(QueryProcessor.java:90)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-09 20:12:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "ID"; SQL statement:
+SELECT ID,NAME,END_DATE,START_DATE FROM ELECTIONS E LEFT JOIN VOTERS V ON V.ELECTION_ID = E.ID AND V.NIC =  ?  [90059-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:197)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:175)
+	at org.h2.command.query.Select.mapColumns(Select.java:1558)
+	at org.h2.command.query.Select.init(Select.java:1100)
+	at org.h2.command.Parser.parseQuery(Parser.java:2627)
+	at org.h2.command.Parser.parsePrepared(Parser.java:732)
+	at org.h2.command.Parser.parse(Parser.java:697)
+	at org.h2.command.Parser.parse(Parser.java:669)
+	at org.h2.command.Parser.prepareCommand(Parser.java:577)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:634)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:557)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:92)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:288)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:315)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.nativeQueryExecutable(QueryProcessor.java:118)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.lambda$nativeQuery$0(QueryProcessor.java:90)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-09 20:16:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "NAME"; SQL statement:
+SELECT NAME,END_DATE,START_DATE FROM ELECTIONS E LEFT JOIN VOTERS V ON V.ELECTION_ID = E.ID AND V.NIC =  ?  [90059-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:197)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:175)
+	at org.h2.command.query.Select.mapColumns(Select.java:1558)
+	at org.h2.command.query.Select.init(Select.java:1100)
+	at org.h2.command.Parser.parseQuery(Parser.java:2627)
+	at org.h2.command.Parser.parsePrepared(Parser.java:732)
+	at org.h2.command.Parser.parse(Parser.java:697)
+	at org.h2.command.Parser.parse(Parser.java:669)
+	at org.h2.command.Parser.prepareCommand(Parser.java:577)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:634)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:557)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:92)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:288)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:315)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.nativeQueryExecutable(QueryProcessor.java:118)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.lambda$nativeQuery$0(QueryProcessor.java:90)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-09 20:20:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "E.ELECTION_ID" not found; SQL statement:
+SELECT * FROM ELECTIONS E LEFT JOIN VOTERS V ON E.ELECTION_ID = V.ID AND V.NIC =  ? [42122-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.expression.condition.Comparison.optimize(Comparison.java:147)
+	at org.h2.expression.condition.ConditionAndOr.optimize(ConditionAndOr.java:136)
+	at org.h2.expression.Expression.optimizeCondition(Expression.java:148)
+	at org.h2.table.TableFilter.createIndexConditions(TableFilter.java:635)
+	at org.h2.table.TableFilter.createIndexConditions(TableFilter.java:644)
+	at org.h2.command.query.Select.preparePlan(Select.java:1320)
+	at org.h2.command.query.Select.preparePlan(Select.java:1202)
+	at org.h2.command.query.Query.prepare(Query.java:219)
+	at org.h2.command.Parser.prepareCommand(Parser.java:583)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:634)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:557)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:92)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:288)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:315)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.nativeQueryExecutable(QueryProcessor.java:118)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.lambda$nativeQuery$0(QueryProcessor.java:90)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-09 20:50:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-09 20:50:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+<<<<<<< HEAD
+=======
+2024-10-10 14:54:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 14:54:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 14:56:20 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 14:56:20 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 14:56:40 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 14:56:41 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 15:02:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-10 15:02:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT COUNT(*) FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.update(Prepared.java:244)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:166)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:120)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-11 11:21:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Invalid value "2" for parameter "parameterIndex" [90008-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1395)
+	at org.h2.jdbc.JdbcPreparedStatement.setString(JdbcPreparedStatement.java:378)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setString(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.parameterprocessor.AbstractStatementParameterProcessor.setSQLValueParam(AbstractStatementParameterProcessor.java:219)
+	at io.ballerina.stdlib.sql.parameterprocessor.AbstractStatementParameterProcessor.setParams(AbstractStatementParameterProcessor.java:206)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.nativeQueryRowExecutable(QueryProcessor.java:194)
+	at io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.lambda$nativeQueryRow$1(QueryProcessor.java:162)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-11 11:22:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Invalid value "2" for parameter "parameterIndex" [90008-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1395)
+	at org.h2.jdbc.JdbcPreparedStatement.setLong(JdbcPreparedStatement.java:678)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setLong(HikariProxyPreparedStatement.java)
+	at io.ballerina.stdlib.sql.parameterprocessor.AbstractStatementParameterProcessor.setSQLValueParam(AbstractStatementParameterProcessor.java:222)
+	at io.ballerina.stdlib.sql.parameterprocessor.AbstractStatementParameterProcessor.setParams(AbstractStatementParameterProcessor.java:206)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.nativeExecuteExecutable(ExecuteProcessor.java:118)
+	at io.ballerina.stdlib.sql.nativeimpl.ExecuteProcessor.lambda$nativeExecute$0(ExecuteProcessor.java:84)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-10-11 22:12:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:12:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:13:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:13:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:13:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:13:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:18:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:18:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:41:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:42:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+2024-10-11 22:44:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
+>>>>>>> add-statistics-charts

@@ -152,17 +152,6 @@ public class Database {
         return id is int ? success : faild;
     }
 
-    isolated function updateCandidate(NewCandidate updateCandidate, string candidateId) returns Sucess|Faild|error {
-        Sucess success = {isSuccess: true, message: "", body: ""};
-        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
-        sql:ParameterizedQuery query = `UPDATE CANDIDATES SET NUMBER = ${updateCandidate.number} AND NAME = ${updateCandidate.name} WHERE ID = ${candidateId}`;
-        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
-
-        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
-        faild.message = id is string ? id : "";
-        return id is int ? success : faild;
-    }
-
     // Add the voter according to NewVoter Record.
     isolated function addVoter(NewVoter newVoter) returns Sucess|Faild|error {
         Sucess success = {isSuccess: true, message: "Succefully Added", body: ""};

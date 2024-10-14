@@ -21,15 +21,15 @@ public isolated function verifyNIC(string nic) returns boolean|Verify {
         return result;
     }
 
-    // If the NIC is 12 characters long, check that it contains only digits
-    if length == 12 && !nic.matches(re `^[0-9]*$`) {
-        result.message = "NIC must contain only digits for 12-character NICs";
-        return result;
-    }
-
     // Check if the NIC contains only alphanumeric characters
     if !nic.matches(re `^[0-9]*$`) && !(length == 10 && nic.endsWith("v")) {
         result.message = "NIC must contain only numeric characters, or end with 'v' for 10-character NICs";
+        return result;
+    }
+
+    // If the NIC is 12 characters long, check that it contains only digits
+    if length == 12 && !nic.matches(re `^[0-9]*$`) {
+        result.message = "NIC must contain only digits for 12-character NICs";
         return result;
     }
 

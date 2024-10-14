@@ -59,25 +59,25 @@ const VotePage = ({ electionId }) => {
 
   return (
     <div
-      className="vote-page relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center"
+      className="relative flex flex-col items-center justify-center min-h-screen bg-center bg-cover vote-page"
       style={{ backgroundImage: `url('/images/election-bg-III.jpg')` }}
     >
-      <h2 className="text-5xl font-bold text-white mb-8 pb-6">
+      <h2 className="pb-6 mb-8 text-5xl font-bold text-white">
         Vote for Your Candidate
       </h2>
       {hasVoted ? (
-        <p className="text-white text-lg">Thank you! You have already voted!</p>
+        <p className="text-lg text-white">Thank you! You have already voted!</p>
       ) : (
-        <div className="candidates-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        <div className="grid grid-cols-1 gap-6 p-6 candidates-list sm:grid-cols-2 lg:grid-cols-3">
           {candidates.map((candidate) => (
             <div
               key={candidate.id}
-              className="candidate-card flex items-center bg-white/30 backdrop-blur-lg rounded-lg p-4 shadow-lg"
+              className="flex items-center p-4 rounded-lg shadow-lg candidate-card bg-white/30 backdrop-blur-lg"
             >
               <img
                 src="/images/candidate-img.png"
                 alt={candidate.name}
-                className="w-16 h-16 rounded-full mr-4"
+                className="w-16 h-16 mr-4 rounded-full"
               />{" "}
               {/* Hardcoded image */}
               <div className="flex-1">
@@ -87,7 +87,7 @@ const VotePage = ({ electionId }) => {
                 <p className="text-gray-700">{candidate.description}</p>
               </div>
               <button
-                className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+                className="px-4 py-2 ml-4 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                 onClick={() => handleVoteClick(candidate)}
                 disabled={hasVoted}
               >
