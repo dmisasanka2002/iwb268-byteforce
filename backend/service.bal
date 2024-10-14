@@ -186,6 +186,20 @@ isolated service /api on new http:Listener(9090) {
         return responce;
     }
 
+    resource function put candidate/update/[string candidate_id](NewCandidate updateCandidate) returns error|http:Response {
+        io:println(updateCandidate);
+        http:Response responce = new;
+        Sucess|Faild candidate;
+
+        lock {
+            candidate = check self.db.updateCandidate(updateCandidate.clone(), candidate_id).clone();
+        }
+        responce.statusCode = candidate is Sucess ? 200 : 404;
+        responce.setJsonPayload(candidate.toJson());
+
+        return responce;
+    }
+
     // success with new return types.
     resource function post addVoter(NewVoter newVoter) returns http:Response|error {
         http:Response responce = new;

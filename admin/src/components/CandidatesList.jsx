@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate from react
 import { getCandidates, updateCandidate } from "../services/electionService"; // Import the updateCandidate function
 import "../styles/CandidateList.css"; // Import CSS for styling
 import { ElectionContext } from "../contexts/ElectionContext";
+import { toast } from "react-toastify";
 
 const CandidateList = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
@@ -10,6 +11,7 @@ const CandidateList = ({ electionId }) => {
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false); // State to track editing
   const [editCandidate, setEditCandidate] = useState(null); // Candidate being edited
+  const [candidateId, setCandidateId] = useState();
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
@@ -38,15 +40,30 @@ const CandidateList = ({ electionId }) => {
   // Handle edit button click
   const handleEditClick = (candidate) => {
     setIsEditing(true);
-    setEditCandidate(candidate);
+    setCandidateId(candidate.id);
+    console.log(candidate);
+
+    setEditCandidate({
+      election_id: candidate.election_id,
+      name: candidate.name,
+      number: candidate.number,
+      votes: candidate.votes,
+    });
   };
 
   // Handle update candidate form submission
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await updateCandidate(editCandidate.id, editCandidate); // Call update function
-      if (res.success) {
+      setEditCandidate((editCandidate) => ({
+        ...editCandidate,
+        number: parseInt(editCandidate.number),
+      }));
+      console.log(editCandidate);
+
+      const res = await updateCandidate(candidateId, editCandidate); // Call update function
+      if (res.isSuccess) {
+        toast.success(res.message);
         // Update the candidates list after successful edit
         setCandidates((prevCandidates) =>
           prevCandidates.map((c) =>
@@ -108,10 +125,10 @@ const CandidateList = ({ electionId }) => {
               <label>Candidate Number</label>
               <input
                 type="number"
-                name="id"
-                value={editCandidate.id}
+                name="number"
+                value={editCandidate.number}
                 onChange={handleChange}
-                disabled // Prevent changing the candidate number
+                disabled
               />
             </div>
             <div className="form-group">

@@ -26,7 +26,6 @@ public isolated function createCandidateRecord(string[][] inputCSVData, string e
 # + return - return value description
 public isolated function createVoterRecord(string[][] inputCSVData, string election_id) returns NewVoter[]|error {
     NewVoter[] voters = [];
-    error[] errors = [];
     foreach var line in inputCSVData {
         validations:Verify verifyEmail = validations:VerifyEmail(line[1].trim());
         validations:Verify verifyNIC = <validations:Verify>validations:verifyNIC(line[2].trim());

@@ -1,4 +1,5 @@
 import ballerina/file;
+import ballerina/io;
 import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
@@ -142,9 +143,21 @@ public class Database {
 
     // Add the candidate according to NewCandidate Record.
     isolated function addCandidate(NewCandidate newCandidate) returns Sucess|Faild|error {
-        Sucess success = {isSuccess: true, message: "", body: ""};
+        Sucess success = {isSuccess: true, message: "Succefully Added", body: ""};
         Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
         sql:ParameterizedQuery query = `INSERT INTO CANDIDATES (NUMBER, NAME, ELECTION_ID) VALUES (${newCandidate.number}, ${newCandidate.name}, ${newCandidate.election_id})`;
+        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
+
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        return id is int ? success : faild;
+    }
+
+    isolated function updateCandidate(NewCandidate updateCandidate, string candidateId) returns Sucess|Faild|error {
+        io:println(candidateId);
+        Sucess success = {isSuccess: true, message: "Update Succesfull.", body: ""};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
+        sql:ParameterizedQuery query = `UPDATE CANDIDATES SET NAME = ${updateCandidate.name} WHERE ID = ${candidateId}`;
         sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
 
         string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();

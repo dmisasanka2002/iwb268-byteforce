@@ -91,11 +91,15 @@ export const getVoters = async (electionId) => {
 };
 
 export const updateCandidate = async (candidateId, updatedData) => {
+  console.log(updatedData);
+
   try {
     const response = await axios.put(
-      `/api/candidates/update/${candidateId}`,
+      `${backURL}/api/candidate/update/${candidateId}`,
       updatedData
     );
+    console.log(response);
+
     return response.data;
   } catch (error) {
     return { success: false, message: error.message };
