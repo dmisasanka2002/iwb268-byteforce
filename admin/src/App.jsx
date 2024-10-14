@@ -9,22 +9,23 @@ import ElectionDetailPage from "./pages/ElectionDetailPage";
 import "./App.css";
 import AdminDashboard from "./components/AdminDashboard";
 import NewElection from "./components/NewElection";
-import ElectionList from "./components/ElectionList";
 import ElectionContextProvider from "./contexts/ElectionContext";
 import CandidateForm from "./components/CandidateForm";
 import VoterForm from "./components/VoterForm";
 import AdminLogin from "./components/AdminLogin";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { id } = useParams();
   return (
     <ElectionContextProvider>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/" element={<AdminLogin />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/election/new" element={<NewElection />} />
-          <Route path="/election/list" element={<ElectionList />} />
           <Route
             path="/election/:id/add/candidates"
             element={<CandidateForm />}

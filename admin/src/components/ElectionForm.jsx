@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { createElection } from "../services/electionService";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ElectionForm = () => {
   const {
@@ -25,9 +26,15 @@ const ElectionForm = () => {
     setElections([...elections, { title, name: `Election ${title}` }]); // Add to elections list
 
     const response = await createElection({ title, startTime, endTime });
-    setElectionId(response.id);
-    navigate(`/election/${response.id}/add/candidates`);
-    console.log(response);
+
+    if (response.isSuccess) {
+      setElectionId(response.body.id);
+      toast.success(response.message);
+
+      navigate(`/election/${response.body.id}/add/candidates`);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
@@ -43,12 +50,6 @@ const ElectionForm = () => {
             >
               Back To Dashboard
             </Link>
-            <Link
-              to="/election/about"
-              className="border border-white rounded-full px-5 py-3 text-white hover:bg-white hover:text-gray-800 transition duration-200"
-            >
-              About Us
-            </Link>
           </nav>
         </div>
       </div>
@@ -59,7 +60,9 @@ const ElectionForm = () => {
           onSubmit={(e) => handleSubmit(e)}
           className="bg-white bg-opacity-80 rounded-lg shadow-lg p-8 space-y-6"
         >
-          <h2 className="text-2xl font-bold text-center text-gray-800">Create Election</h2>
+          <h2 className="text-2xl font-bold text-center text-gray-800">
+            Create Election
+          </h2>
           <input
             type="text"
             value={title}

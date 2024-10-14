@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getCandidates, castVote } from "../services/voteService";
 import { useParams } from "react-router-dom";
 // import "../styles/VotePage.css";
 import ConfirmationModal from "../components/ConfirmationModal";
+import { ElectionContext } from "../contexts/ElectionContext";
+import { toast } from "react-toastify";
 
 const VotePage = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
-  const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [candidateToVote, setCandidateToVote] = useState(null);
+
+  const { nic } = useContext(ElectionContext);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -29,18 +33,22 @@ const VotePage = ({ electionId }) => {
   };
 
   const handleConfirmVote = async () => {
-    // console.log(candidateToVote);
-    //TODO: Add logic to cast vote - Should be change the voterId, voterNic dynamically.
     if (!hasVoted && candidateToVote) {
-      await castVote({
+      const res = await castVote({
         election_id: parseInt(id),
         candidateId: parseInt(candidateToVote.id),
-        voterId: 3,
-        voterNic: "123467",
+        voterNic: nic,
       });
-      setHasVoted(true);
-      setShowModal(false); // Hide the modal after vote
-      alert("Vote cast successfully!");
+
+      if (res.isSuccess) {
+        setHasVoted(true);
+        setShowModal(false); // Hide the modal after vote
+        alert("Vote cast successfully!");
+        toast.success("Vote cast successfully!");
+      } else {
+        // alert(res.message);
+        toast.error(res.message);
+      }
     }
   };
 
@@ -49,38 +57,7 @@ const VotePage = ({ electionId }) => {
     setCandidateToVote(null); // Reset the selected candidate
   };
 
-  // console.log(candidateToVote);
-
   return (
-    // <div className="vote-page">
-    //   <h2 className="page-title">Vote for Your Candidate</h2>
-    //   {hasVoted ? (
-    //     <p className="message">Thank you! You have already voted!</p>
-    //   ) : (
-    //     <div className="candidates-list">
-    //       {candidates.map((candidate) => (
-    //         <div key={candidate.id} className="candidate-card">
-    //           <h3 className="candidate-name">{candidate.name}</h3>
-    //           <p className="candidate-description">{candidate.description}</p>
-    //           <button
-    //             className="vote-button"
-    //             onClick={() => handleVoteClick(candidate.id)}
-    //             disabled={hasVoted}
-    //           >
-    //             Vote
-    //           </button>
-    //         </div>
-    //       ))}
-    //     </div>
-    //   )}
-    //   {showModal && (
-    //     <ConfirmationModal
-    //       message="Are you sure you want to vote for this candidate?"
-    //       onConfirm={handleConfirmVote}
-    //       onCancel={handleCancelVote}
-    //     />
-    //   )}
-    // </div>
     <div
       className="vote-page relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url('/images/election-bg-III.jpg')` }}

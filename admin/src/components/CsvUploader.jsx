@@ -3,7 +3,7 @@ import "../styles/CsvUploader.css"; // Import the CSS file
 import { uploadFile } from "../services/electionService";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { useParams } from "react-router-dom";
-
+import { toast } from "react-toastify";
 
 const CsvUploader = ({ fileType }) => {
   const [file, setFile] = useState(null);
@@ -12,7 +12,6 @@ const CsvUploader = ({ fileType }) => {
   const inputRef = useRef(null); // Create a reference for the hidden file input
 
   const { id: electionId } = useParams(); // Destructure and rename id to electionId
-  console.log(electionId,"CSV Uploader")
 
   // Handle file input through both drag-and-drop and normal file input
   const handleFileChange = (event) => {
@@ -20,7 +19,7 @@ const CsvUploader = ({ fileType }) => {
     if (selectedFile && selectedFile.type === "text/csv") {
       setFile(selectedFile);
     } else {
-      alert("Please upload a valid CSV file");
+      toast.info("Please upload a valid CSV file");
     }
   };
 
@@ -45,7 +44,7 @@ const CsvUploader = ({ fileType }) => {
     if (droppedFile && droppedFile.type === "text/csv") {
       setFile(droppedFile);
     } else {
-      alert("Please drop a valid CSV file");
+      toast.info("Please drop a valid CSV file");
     }
   };
 
@@ -57,8 +56,6 @@ const CsvUploader = ({ fileType }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (file) {
-      // console.log("File submitted:", file);
-      // Process the CSV file (send to server or read locally)
       const formData = new FormData();
       formData.append(file, file);
 
@@ -67,9 +64,13 @@ const CsvUploader = ({ fileType }) => {
         fileType,
         electionId.toString()
       );
-      console.log(responce);
+      if (responce.isSuccess) {
+        toast.success(responce.message);
+      } else {
+        toast.error(responce.message);
+      }
     } else {
-      alert("Please upload a file first.");
+      toast.info("Please upload a valid CSV file");
     }
   };
 
@@ -110,7 +111,10 @@ const CsvUploader = ({ fileType }) => {
           )}
         </div>
 
-        <button type="submit" className="w-full px-4 py-2 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+        <button
+          type="submit"
+          className="w-full px-4 py-2 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+        >
           Add Via CSV File
         </button>
       </form>

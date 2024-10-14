@@ -150,13 +150,11 @@ public type NewAdmin record {|
 
 # Description.
 #
-# + candidateId - field description  
-# + voterId - field description  
+# + candidateId - field description
 # + voterNic - field description  
 # + election_id - field description
 public type Vote record {|
     int candidateId;
-    int voterId;
     string voterNic;
     int election_id;
 |};
@@ -189,6 +187,26 @@ public type ElectionAdded record {|
 public type Voted record {|
     *http:Ok;
 |};
+
+# Description.
+#
+# + isSuccess - field description  
+# + message - field description  
+# + body - field description
+public type Sucess record {
+    boolean isSuccess = true;
+    string message = "";
+    json body = {};
+};
+
+# Description.
+#
+# + isSuccess - field description  
+# + message - field description
+public type Faild record {
+    boolean isSuccess = false;
+    string message = "";
+};
 
 public enum FileTypes {
     VOTERS,

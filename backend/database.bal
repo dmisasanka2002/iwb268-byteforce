@@ -1,6 +1,4 @@
 import ballerina/file;
-import ballerina/http;
-import ballerina/io;
 import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
@@ -18,7 +16,7 @@ public class Database {
 
         // Create the USERS table
         _ = check self.dbClient->execute(`
-        CREATE TABLE IF NOT EXISTS USERS (
+        CREATE TABLE IF NOT EXISTS ADMINS (
         ID INT AUTO_INCREMENT PRIMARY KEY,
         EMAIL VARCHAR(255) UNIQUE NOT NULL,
         PASSWORD VARCHAR(50) NOT NULL
@@ -59,20 +57,25 @@ public class Database {
         )`);
     }
 
-    isolated function createElection(NewElection newElection) returns ElectionAdded|http:BadRequest|error {
+    // Create a new election according to NewElection Record.
+    isolated function createElection(NewElection newElection) returns error|Faild {
+        Sucess success = {isSuccess: true, message: "Succesfully Create a new Election", body: {id: ""}};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
         // Prepare the SQL query to insert the new election
         sql:ParameterizedQuery query = `INSERT INTO ELECTIONS (NAME, START_DATE, END_DATE) 
                                     VALUES (${newElection.name}, ${newElection.startDate}, ${newElection.endDate})`;
 
         // Execute the query
-        sql:ExecutionResult result = check self.dbClient->execute(query);
+        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
 
-        // Retrieve the last inserted ID (the election ID)
-        string|int? id = result.lastInsertId;
-        return id is int ? <ElectionAdded>{body: {...newElection, id: id}} : error("Error occurred while retriving the candidate id");
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        success.body = id is int ? {id: id} : {};
+        return id is int ? success : faild;
 
     }
 
+    // Get the all of election that are already created.
     isolated function getElections() returns Election[]|error {
         sql:ParameterizedQuery query = `SELECT * FROM ELECTIONS`;
         stream<Election, sql:Error?> electionStream = self.dbClient->query(query);
@@ -80,6 +83,14 @@ public class Database {
             select election;
     }
 
+    isolated function getElegibleList(string voterNIC) returns Election[]|error {
+        sql:ParameterizedQuery query = `SELECT E.ID,E.NAME,E.END_DATE,E.START_DATE FROM ELECTIONS E INNER JOIN VOTERS V ON V.ELECTION_ID = E.ID AND V.NIC = ${voterNIC}`;
+        stream<Election, sql:Error?> electionStream = self.dbClient->query(query);
+        return from Election election in electionStream
+            select election;
+    }
+
+    // Get all the candidates matching with given election.
     isolated function getCandidates(string election_id) returns Candidate[]|error {
         sql:ParameterizedQuery query = `SELECT * FROM CANDIDATES WHERE ELECTION_ID = ${election_id}`;
         stream<Candidate, sql:Error?> candidateStream = self.dbClient->query(query);
@@ -87,6 +98,7 @@ public class Database {
             select candidate;
     }
 
+    // Get all the voters matching with given election.
     isolated function getVoters(string election_id) returns Voter[]|error {
         sql:ParameterizedQuery query = `SELECT * FROM VOTERS WHERE ELECTION_ID = ${election_id}`;
         stream<Voter, sql:Error?> voterStream = self.dbClient->query(query);
@@ -94,69 +106,123 @@ public class Database {
             select voter;
     }
 
-    isolated function getVoter(string nic) returns Voter|http:NotFound {
-        sql:ParameterizedQuery query = `SELECT * FROM VOTERS WHERE NIC = ${nic}`;
-        Voter|error voter = self.dbClient->queryRow(query);
-        return voter is Voter ? voter : http:NOT_FOUND;
-    }
+    isolated function getTotalAssignedVoters(string electionId) returns int|error {
 
-    isolated function addCandidate(NewCandidate newCandidate) returns CandidateAdded|http:BadRequest|error {
-        sql:ParameterizedQuery query = `INSERT INTO CANDIDATES (NUMBER, NAME, ELECTION_ID) VALUES (${newCandidate.number}, ${newCandidate.name}, ${newCandidate.election_id})`;
-        sql:ExecutionResult result = check self.dbClient->execute(query);
+        // SQL query to count the total number of assigned voters for the specified election
+        sql:ParameterizedQuery query = `SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID = ${electionId}`;
 
-        string|int? id = result.lastInsertId;
-        return id is int ? <CandidateAdded>{body: {...newCandidate, id: id}} : error("Error occurred while retriving the candidate id");
-    }
+        // Execute the query and get the result
+        int|error totalAssignedVoters = self.dbClient->queryRow(query);
 
-    isolated function addVoter(NewVoter newVoter) returns VoterAdded|http:BadRequest|error {
-        sql:ParameterizedQuery query = `INSERT INTO VOTERS (NAME, EMAIL, NIC, ELECTION_ID) VALUES ( ${newVoter.name}, ${newVoter.email}, ${newVoter.nic}, ${newVoter.election_id})`;
-        sql:ExecutionResult result = check self.dbClient->execute(query);
-
-        string|int? id = result.lastInsertId;
-        return id is int ? <VoterAdded>{body: {...newVoter, id: id}} : error("Error occurred while retriving the voter id");
-    }
-
-    isolated function addVote(Vote newVote) returns typedesc<Voted>|http:NotFound & readonly|error {
-        io:println(newVote.clone());
-        // Query to get the candidate by ID
-        sql:ParameterizedQuery query1 = `SELECT * FROM CANDIDATES WHERE ID = ${newVote.candidateId}`;
-        Candidate|error candidate = self.dbClient->queryRow(query1);
-
-        io:println(candidate.clone());
-
-        // Query to get the voter by ID
-        sql:ParameterizedQuery query2 = `SELECT * FROM VOTERS WHERE ID = ${newVote.voterId}`;
-        Voter|error voter = self.dbClient->queryRow(query2);
-
-        io:println(voter.clone());
-
-        // Check if both candidate and voter exist
-        if candidate is Candidate && voter is Voter {
-            // Ensure the candidate and voter belong to the same election
-            if candidate.election_id == voter.election_id {
-                // Check if the voter has already voted
-                if !voter.hasVote {
-                    // Update the candidate's vote count
-                    sql:ParameterizedQuery updateQuery1 = `UPDATE CANDIDATES SET VOTES = VOTES + 1 WHERE ID = ${newVote.candidateId}`;
-                    _ = check self.dbClient->execute(updateQuery1);
-
-                    // Update the voter's HASVOTE status to true
-                    sql:ParameterizedQuery updateQuery2 = `UPDATE VOTERS SET HASVOTE = true WHERE ID = ${newVote.voterId}`;
-                    _ = check self.dbClient->execute(updateQuery2);
-
-                    // Return the success response
-                    return Voted;
-                } else {
-                    return http:NOT_FOUND; //:NotFound("Voter has already voted.");
-                }
-            } else {
-                return http:NOT_FOUND; //("Candidate and Voter do not belong to the same election.");
-            }
+        // Check if we successfully retrieved the count
+        if totalAssignedVoters is int {
+            return totalAssignedVoters; // Return the total count of assigned voters
         } else {
-            return http:NOT_FOUND; //("Candidate or Voter not found.");
+            return error("Failed to retrieve total assigned voters: " + totalAssignedVoters.message());
         }
     }
 
+    // Get the voter matching with given election to auth processes.
+    isolated function getVoter(string nic, string email = "") returns Voter|error|Faild {
+        Faild faild = {isSuccess: false, message: "Not Found"};
+        if email.trim().length() == 0 {
+            sql:ParameterizedQuery query = `SELECT * FROM VOTERS WHERE NIC = ${nic}`;
+            Voter|error voter = self.dbClient->queryRow(query);
+            faild.message = voter is error ? voter.message() : "";
+            return voter is Voter ? voter : faild;
+        }
+        else {
+            sql:ParameterizedQuery query = `SELECT * FROM VOTERS WHERE NIC = ${nic} AND EMAIL = ${email}`;
+            Voter|error voter = self.dbClient->queryRow(query);
+            faild.message = voter is error ? voter.message() : "";
+            return voter is Voter ? voter : faild;
+        }
+
+    }
+
+    // Add the candidate according to NewCandidate Record.
+    isolated function addCandidate(NewCandidate newCandidate) returns Sucess|Faild|error {
+        Sucess success = {isSuccess: true, message: "", body: ""};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
+        sql:ParameterizedQuery query = `INSERT INTO CANDIDATES (NUMBER, NAME, ELECTION_ID) VALUES (${newCandidate.number}, ${newCandidate.name}, ${newCandidate.election_id})`;
+        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
+
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        return id is int ? success : faild;
+    }
+
+    isolated function updateCandidate(NewCandidate updateCandidate, string candidateId) returns Sucess|Faild|error {
+        Sucess success = {isSuccess: true, message: "", body: ""};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
+        sql:ParameterizedQuery query = `UPDATE CANDIDATES SET NUMBER = ${updateCandidate.number} AND NAME = ${updateCandidate.name} WHERE ID = ${candidateId}`;
+        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
+
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        return id is int ? success : faild;
+    }
+
+    // Add the voter according to NewVoter Record.
+    isolated function addVoter(NewVoter newVoter) returns Sucess|Faild|error {
+        Sucess success = {isSuccess: true, message: "Succefully Added", body: ""};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the voter id. Already Registered"};
+
+        sql:ParameterizedQuery query = `INSERT INTO VOTERS (NAME, EMAIL, NIC, ELECTION_ID) VALUES ( ${newVoter.name}, ${newVoter.email}, ${newVoter.nic}, ${newVoter.election_id})`;
+        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
+
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        return id is int ? success : faild;
+    }
+
+    // vote for specific candidate.
+    isolated function addVote(Vote newVote) returns typedesc<Voted>|Faild {
+        Faild faild = {isSuccess: false, message: ""};
+
+        // Step 1: Validate if the voter is registered for the given election
+        sql:ParameterizedQuery voterQuery = `SELECT * FROM VOTERS WHERE ELECTION_ID = ${newVote.election_id} AND NIC = ${newVote.voterNic}`;
+        Voter|error voterRecord = self.dbClient->queryRow(voterQuery);
+
+        if voterRecord is Voter {
+            boolean hasVoted = <boolean>voterRecord.hasVote;
+
+            // Step 2: Check if the voter has already voted in this election
+            if hasVoted {
+                faild.message = "This voter has already voted in this election.";
+                return faild;
+            }
+
+            // Step 3: Validate if the candidate belongs to the specified election
+            sql:ParameterizedQuery candidateQuery = `SELECT * FROM CANDIDATES WHERE ELECTION_ID = ${newVote.election_id} AND ID = ${newVote.candidateId}`;
+            Candidate|error candidateRecord = self.dbClient->queryRow(candidateQuery);
+
+            if candidateRecord is record {} {
+                // Step 4: Update the candidate's vote count
+                sql:ParameterizedQuery updateVoteCountQuery = `UPDATE CANDIDATES SET VOTES = VOTES + 1 WHERE ID = ${newVote.candidateId}`;
+                sql:ExecutionResult|sql:Error execute = self.dbClient->execute(updateVoteCountQuery);
+
+                faild.message = execute is sql:Error ? execute.toString() : "";
+
+                // Step 5: Mark the voter as having voted
+                sql:ParameterizedQuery updateVoterQuery = `UPDATE VOTERS SET HASVOTE = true WHERE NIC = ${newVote.voterNic} AND ELECTION_ID = ${newVote.election_id}`;
+                sql:ExecutionResult|sql:Error executeResult = self.dbClient->execute(updateVoterQuery);
+
+                faild.message = executeResult is sql:Error ? executeResult.toString() : "";
+
+                // Return success response
+                return executeResult is sql:ExecutionResult ? Voted : faild;
+            } else {
+                faild.message = candidateRecord.message();
+                return faild;
+            }
+        } else {
+            faild.message = voterRecord.message();
+            return faild;
+        }
+    }
+
+    // See the Result of the selected election.
     isolated function getResults(string election_id) returns Candidate[]|error {
         // Query to get candidates for a specific election ID, ordered by votes
         sql:ParameterizedQuery query = `SELECT * FROM CANDIDATES WHERE ELECTION_ID = ${election_id} ORDER BY VOTES DESC`;

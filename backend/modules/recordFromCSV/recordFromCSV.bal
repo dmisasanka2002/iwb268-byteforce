@@ -1,21 +1,5 @@
 //Construct record values 
-# Description.
-#
-# + inputCSVData - parameter description
-# + return - return value description
-public isolated function createEmployeeRecord(string[][] inputCSVData) returns Employee[]|error {
-    Employee[] employees = [];
-    foreach var line in inputCSVData {
-        Employee employee = {
-            name: line[0],
-            age: check int:fromString(line[1].trim()),
-            salary: check decimal:fromString(line[2].trim()),
-            isMarried: check boolean:fromString(line[3].trim())
-        };
-        employees.push(employee);
-    }
-    return employees;
-}
+import backend.validations;
 
 # Description.
 #
@@ -43,13 +27,22 @@ public isolated function createCandidateRecord(string[][] inputCSVData, string e
 public isolated function createVoterRecord(string[][] inputCSVData, string election_id) returns NewVoter[]|error {
     NewVoter[] voters = [];
     foreach var line in inputCSVData {
-        NewVoter voter = {
-            election_id: check int:fromString(election_id),
-            name: line[0],
-            email: line[1],
-            nic: line[2]
-        };
-        voters.push(voter);
+        validations:Verify verifyEmail = validations:VerifyEmail(line[1].trim());
+        validations:Verify verifyNIC = <validations:Verify>validations:verifyNIC(line[2].trim());
+
+        if verifyEmail.isSuccess && verifyNIC.isSuccess {
+
+            NewVoter voter = {
+                election_id: check int:fromString(election_id),
+                name: line[0],
+                email: line[1],
+                nic: line[2]
+            };
+            voters.push(voter);
+        }
+        else {
+        }
+
     }
     return voters;
 }
