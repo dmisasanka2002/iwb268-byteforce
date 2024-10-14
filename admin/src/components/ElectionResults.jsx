@@ -15,11 +15,11 @@ const ElectionResults = ({ electionId }) => {
   }, [electionId]);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg mt-8">
-      <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+    <div className="p-6 mt-8 bg-white rounded-lg shadow-lg">
+      <h2 className="mb-4 text-2xl font-semibold text-blue-600">
         Election Results
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {results.map((candidate, index) => (
           <ResultCard
             key={index}

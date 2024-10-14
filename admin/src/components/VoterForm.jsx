@@ -6,6 +6,8 @@ import VoterList from "./VoterList";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate, Link } from "react-router-dom";
+
 
 const VoterForm = () => {
   const [name, setName] = useState("");
@@ -45,7 +47,22 @@ const VoterForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen py-10 bg-gradient-to-r from-cyan-600 via-purple-600 to-blue-600">
+
+    <>
+              <div className="h-[65px] bg-blue-800 shadow-lg rounded-b-xl">
+              <div className="container flex items-center justify-between p-4 mx-auto">
+                <h1 className="text-2xl font-bold text-white">E-Voting System</h1>
+                <nav className="space-x-4">
+                  <Link
+                    to="/election/new"
+                    className="px-5 py-3 text-white transition duration-200 border border-white rounded-full hover:bg-white hover:text-gray-800"
+                  >
+                    Back to Create Election
+                  </Link>
+                </nav>
+              </div>
+            </div>
+    <div className="flex items-center justify-center min-h-screen py-10 bg-white">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg bg-opacity-90">
         <h2 className="mb-6 text-2xl font-semibold text-center text-gray-800">
           Add Voter
@@ -119,6 +136,8 @@ const VoterForm = () => {
         <VoterList electionId={electionId} />
       </div>
     </div>
+    </>
+
   );
 };
 
