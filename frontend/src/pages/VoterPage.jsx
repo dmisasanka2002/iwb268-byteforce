@@ -1,6 +1,6 @@
 import React from "react";
 import VoterLogin from "../components/VoterLogin";
-import VoterLogin2 from "../components/VoterLogin2";
+import VoterLogin2 from "../components/VoterLogin";
 // import "../styles/VoterPage.css"; // Custom CSS for styling
 
 const VoterPage = () => {

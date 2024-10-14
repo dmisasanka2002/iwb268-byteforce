@@ -16,7 +16,6 @@ const VoterForm = () => {
   const fileType = "VOTERS"; // VOTERS
 
   const { id: electionId } = useParams(); // Destructure and rename id to electionId
-  console.log(electionId, "VoterForm");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +28,6 @@ const VoterForm = () => {
       name,
       nic: voterNic,
       email: voterEmail,
-      election_id: parseInt(electionId),
       election_id: parseInt(electionId),
     });
 
@@ -57,9 +55,6 @@ const VoterForm = () => {
             <label className="block mb-1 font-semibold text-gray-700">
               Voter Name
             </label>
-            <label className="block mb-1 font-semibold text-gray-700">
-              Voter Name
-            </label>
             <input
               type="text"
               className={`form-input ${error && !name ? "input-error" : ""}`}
@@ -83,33 +78,12 @@ const VoterForm = () => {
               onChange={(e) => setVoterNic(e.target.value)}
               required
             />
-              type="text"
-              className={`form-input ${
-                error && !voterNic ? "input-error" : ""
-              }`}
-              placeholder="Enter voter NIC"
-              value={voterNic}
-              onChange={(e) => setVoterNic(e.target.value)}
-              required
-            />
           </div>
           <div className="form-group">
             <label className="block mb-1 font-semibold text-gray-700">
               Voter Email
             </label>
-            <label className="block mb-1 font-semibold text-gray-700">
-              Voter Email
-            </label>
             <input
-              type="email"
-              className={`form-input ${
-                error && !voterEmail ? "input-error" : ""
-              }`}
-              placeholder="Enter voter Email"
-              value={voterEmail}
-              onChange={(e) => setVoterEmail(e.target.value)}
-              required
-            />
               type="email"
               className={`form-input ${
                 error && !voterEmail ? "input-error" : ""
@@ -130,9 +104,6 @@ const VoterForm = () => {
             <p className="mt-2 font-medium text-center text-green-600">
               {message}
             </p>
-            <p className="mt-2 font-medium text-center text-green-600">
-              {message}
-            </p>
           )}
           {error && (
             <p className="mt-2 font-medium text-center text-red-600">{error}</p>
@@ -146,11 +117,9 @@ const VoterForm = () => {
 
         {/* Voter List */}
         <VoterList electionId={electionId} />
-        <VoterList electionId={electionId} />
       </div>
     </div>
   );
 };
 
 export default VoterForm;
-

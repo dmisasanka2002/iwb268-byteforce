@@ -1,5 +1,4 @@
 import ballerina/file;
-import ballerina/http;
 import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
@@ -17,7 +16,6 @@ public class Database {
 
         // Create the USERS table
         _ = check self.dbClient->execute(`
-        CREATE TABLE IF NOT EXISTS ADMINS (
         CREATE TABLE IF NOT EXISTS ADMINS (
         ID INT AUTO_INCREMENT PRIMARY KEY,
         EMAIL VARCHAR(255) UNIQUE NOT NULL,

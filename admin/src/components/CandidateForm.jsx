@@ -11,7 +11,6 @@ const CandidateForm = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const fileType = "CANDIDATES"; // CANDIDATES
-  const fileType = "CANDIDATES"; // CANDIDATES
 
   const { id } = useParams();
 
