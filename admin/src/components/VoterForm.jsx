@@ -5,6 +5,7 @@ import CsvUploader from "./CsvUploader";
 import VoterList from "./VoterList";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const VoterForm = () => {
   const [name, setName] = useState("");
@@ -14,7 +15,6 @@ const VoterForm = () => {
   const [error, setError] = useState("");
   const fileType = "VOTERS"; // VOTERS
 
-  // const { electionId } = useContext(ElectionContext);
   const { id: electionId } = useParams(); // Destructure and rename id to electionId
   console.log(electionId, "VoterForm");
 
@@ -25,17 +25,25 @@ const VoterForm = () => {
       return;
     }
     setError("");
-    await addVoter({
+    const res = await addVoter({
       name,
       nic: voterNic,
       email: voterEmail,
       election_id: parseInt(electionId),
+      election_id: parseInt(electionId),
     });
-    setName(""); // Clear form
-    setVoterNic(""); // Clear form
-    setVoterEmail("");
-    setMessage("Voter added successfully!");
-    setTimeout(() => setMessage(""), 3000); // Clear success message after 3 seconds
+
+    if (res.isSuccess) {
+      setName(""); // Clear form
+      setVoterNic(""); // Clear form
+      setVoterEmail("");
+      setMessage("Voter added successfully!");
+      toast.success("Voter added successfully!");
+      setTimeout(() => setMessage(""), 3000); // Clear success message after 3 seconds
+    } else {
+      setError(res.response.data.message);
+      toast.error("Unique index or primary key violation");
+    }
   };
 
   return (
@@ -46,6 +54,9 @@ const VoterForm = () => {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="form-group">
+            <label className="block mb-1 font-semibold text-gray-700">
+              Voter Name
+            </label>
             <label className="block mb-1 font-semibold text-gray-700">
               Voter Name
             </label>
@@ -72,12 +83,33 @@ const VoterForm = () => {
               onChange={(e) => setVoterNic(e.target.value)}
               required
             />
+              type="text"
+              className={`form-input ${
+                error && !voterNic ? "input-error" : ""
+              }`}
+              placeholder="Enter voter NIC"
+              value={voterNic}
+              onChange={(e) => setVoterNic(e.target.value)}
+              required
+            />
           </div>
           <div className="form-group">
             <label className="block mb-1 font-semibold text-gray-700">
               Voter Email
             </label>
+            <label className="block mb-1 font-semibold text-gray-700">
+              Voter Email
+            </label>
             <input
+              type="email"
+              className={`form-input ${
+                error && !voterEmail ? "input-error" : ""
+              }`}
+              placeholder="Enter voter Email"
+              value={voterEmail}
+              onChange={(e) => setVoterEmail(e.target.value)}
+              required
+            />
               type="email"
               className={`form-input ${
                 error && !voterEmail ? "input-error" : ""
@@ -98,6 +130,9 @@ const VoterForm = () => {
             <p className="mt-2 font-medium text-center text-green-600">
               {message}
             </p>
+            <p className="mt-2 font-medium text-center text-green-600">
+              {message}
+            </p>
           )}
           {error && (
             <p className="mt-2 font-medium text-center text-red-600">{error}</p>
@@ -111,9 +146,11 @@ const VoterForm = () => {
 
         {/* Voter List */}
         <VoterList electionId={electionId} />
+        <VoterList electionId={electionId} />
       </div>
     </div>
   );
 };
 
 export default VoterForm;
+

@@ -18,7 +18,6 @@ const ElectionContextProvider = (props) => {
   });
 
   const filterElectionList = (response) => {
-    console.log(response);
     setUpcomingElections(
       response.filter((election) => new Date(election.startDate) > new Date())
     );

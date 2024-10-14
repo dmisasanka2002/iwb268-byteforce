@@ -10,9 +10,7 @@ const VoterList = ({ electionId }) => {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  console.log(electionId,"votersList")
   const navigate = useNavigate(); // Initialize useNavigate hook
-  // const { electionId } = useContext(ElectionContext);
 
   const fetchVoters = async () => {
     try {
@@ -59,7 +57,10 @@ const VoterList = ({ electionId }) => {
       )}
 
       {/* Button to navigate to the root path */}
-      <button onClick={handleNextClick} className="w-full px-4 py-3 text-white transition duration-200 bg-red-600 rounded-lg hover:bg-red-700">
+      <button
+        onClick={handleNextClick}
+        className="w-full px-4 py-3 text-white transition duration-200 bg-red-600 rounded-lg hover:bg-red-700"
+      >
         Finish and Return Main
       </button>
     </div>

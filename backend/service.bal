@@ -17,6 +17,8 @@ import ballerina/time;
         allowOrigins: ["*"]
     }
 }
+
+// TODO: implement this service, Should be change all the post and put requests with return type "Sucess record to access properly in frontend"
 isolated service /api on new http:Listener(9090) {
 
     private Database db;
@@ -26,9 +28,10 @@ isolated service /api on new http:Listener(9090) {
         self.db = check new Database("Election");
     }
 
-    // success
-    resource function post election/create(@http:Payload json data) returns ElectionAdded|http:BadRequest|error {
-        ElectionAdded|http:BadRequest election;
+    // success with new return types.
+    resource function post election/create(@http:Payload json data) returns error|http:Response {
+        http:Response responce = new;
+        Sucess|Faild result;
         NewElection newElection = {
             name: check data.name,
             startDate: check time:civilFromString(check data.startTime),
@@ -36,9 +39,10 @@ isolated service /api on new http:Listener(9090) {
         };
 
         lock {
-            election = check self.db.createElection(newElection.clone()).clone();
+            result = check self.db.createElection(newElection.clone()).clone();
         }
-        return election;
+        responce.setJsonPayload(result.toJson());
+        return responce;
     }
 
     // success
@@ -94,24 +98,29 @@ isolated service /api on new http:Listener(9090) {
         return voters;
     }
 
-    // success
-    resource function get voter/verify/nic/[string nic]() returns error|Voter|http:NotFound {
-        Voter|http:NotFound voter;
+    // success with new return types.
+    resource function post voter/verify/nic/[string nic]() returns http:Response|error {
+        http:Response responce = new;
+        validations:Verify verifyNIC = <validations:Verify>validations:verifyNIC(nic);
 
-        boolean|error verifyNIC = validations:verifyNIC(nic);
-
-        if verifyNIC is boolean {
+        if verifyNIC.isSuccess {
+            Voter|Faild result;
             lock {
-                voter = self.db.getVoter(nic = nic).clone();
+                result = check self.db.getVoter(nic = nic).clone();
             }
-            return voter is Voter ? voter : http:NOT_FOUND;
+            responce.statusCode = result is Voter ? 200 : 404;
+            responce.setJsonPayload(result.toJson());
+            return responce;
         }
-        return verifyNIC;
+        responce.statusCode = 500;
+        responce.setJsonPayload(verifyNIC.toJson());
+        return responce;
 
     }
 
-    // success
-    resource function post voter/verify/credential(http:Request request) returns error|Voter|http:NotFound {
+    // success with new return types.
+    resource function post voter/verify/credential(http:Request request) returns error|http:Response {
+        http:Response responce = new;
         json jsonPayload = check request.getJsonPayload();
         [jwt:Header, jwt:Payload] decodeJwt = check autherization:decodeJwt(check jsonPayload.credential);
 
@@ -119,14 +128,22 @@ isolated service /api on new http:Listener(9090) {
         string email = <string>payload["email"];
         string nic = check jsonPayload.nic;
 
-        io:println(email);
-        io:println(nic);
-
-        Voter|http:NotFound voter;
+        Voter|Faild result;
         lock {
-            voter = self.db.getVoter(nic = nic, email = email).clone();
+            result = check self.db.getVoter(nic = nic, email = email).clone();
         }
-        return voter is Voter ? voter : http:NOT_FOUND;
+        responce.statusCode = result is Voter ? 200 : 404;
+        responce.setJsonPayload(result.toJson());
+        return responce;
+    }
+
+    // success
+    resource function get elections/[string election_id]/assigned_voters() returns error|int {
+        lock {
+            int totalAssignedVoters = check self.db.getTotalAssignedVoters(election_id);
+
+            return totalAssignedVoters;
+        }
     }
 
     // success
@@ -139,48 +156,75 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success
-    resource function put vote(Vote newVote) returns http:NotFound & readonly|http:Ok & readonly|error {
-        lock {
-            typedesc<Voted>|(http:NotFound & readonly) results = check self.db.addVote(newVote.clone());
+    // TODO: Shold be checked the vote function.
 
-            if results is http:NotFound {
-                return http:NOT_FOUND;
-            }
-            return http:OK;
+    resource function post vote(Vote newVote) returns http:Ok & readonly|http:Response {
+        http:Response responce = new;
+        typedesc<Voted>|Faild result;
+
+        lock {
+            result = self.db.addVote(newVote.clone()).clone();
         }
+        if result is Faild {
+            responce.statusCode = 400;
+            responce.setJsonPayload(result.toJson());
+            return responce;
+        }
+        return http:OK;
     }
 
-    // success
-    resource function post addCandidate(NewCandidate newCandidate) returns CandidateAdded|http:BadRequest|error {
-        CandidateAdded|http:BadRequest candidate;
+    // success with new return types.
+    resource function post addCandidate(NewCandidate newCandidate) returns error|http:Response {
+        http:Response responce = new;
+        Sucess|Faild candidate;
+
         lock {
             candidate = check self.db.addCandidate(newCandidate.clone()).clone();
         }
-        return candidate;
+        responce.setJsonPayload(candidate.toJson());
+
+        return responce;
     }
 
-    // success
-    resource function post addVoter(NewVoter newVoter) returns VoterAdded|http:BadRequest|error {
-        boolean|error verifyNIC = validations:verifyNIC(newVoter.nic);
-        boolean|error verifyEmail = validations:VerifyEmail(newVoter.email);
+    // success with new return types.
+    resource function post addVoter(NewVoter newVoter) returns http:Response|error {
+        http:Response responce = new;
+        Faild faild = {isSuccess: false, message: ""};
+        validations:Verify verifyNIC = <validations:Verify>validations:verifyNIC(newVoter.nic);
+        validations:Verify verifyEmail = validations:VerifyEmail(newVoter.email);
 
-        if verifyNIC is boolean && verifyEmail is boolean {
+        if verifyNIC.isSuccess && verifyEmail.isSuccess {
+            Sucess|Faild voter;
             lock {
-                VoterAdded|error voter = self.db.addVoter(newVoter.clone()).clone();
-
-                return voter.clone();
+                voter = check self.db.addVoter(newVoter.clone()).clone();
+                io:println(voter.clone());
             }
+            if voter is Sucess {
+                responce.statusCode = 200;
+            }
+            else {
+                responce.statusCode = 500;
+            }
+            responce.setJsonPayload(voter.toJson());
+            return responce;
         }
-        else if verifyNIC is error {
-            return error("Check the NIC again.");
+        else if !verifyNIC.isSuccess {
+            responce.statusCode = 500;
+            responce.setJsonPayload(verifyNIC);
+            return responce;
         }
-        else if verifyEmail is error {
-            return error("Check the email again.");
+        else if !verifyEmail.isSuccess {
+            responce.statusCode = 500;
+            responce.setJsonPayload(verifyEmail);
+            return responce;
         }
-        return http:BAD_REQUEST;
+        responce.statusCode = 500;
+        responce.setJsonPayload(faild.toJson());
+        return responce;
     }
 
     // success
+    // TODO: add the proper response as other one
     resource function post upload/file/[FileTypes fileType]/[string election_id](http:Request request) returns http:Response|error {
         http:Response response = new;
         string[][] csvLines = check readCSVFromRequest:extractCSVLines(request);
@@ -189,22 +233,30 @@ isolated service /api on new http:Listener(9090) {
             NewCandidate[] newCandidates = check recordFromCSV:createCandidateRecord(csvLines, election_id);
 
             foreach var newCandidate in newCandidates {
+                Sucess|Faild|error result;
                 lock {
-                    CandidateAdded|http:BadRequest _ = check self.db.addCandidate(newCandidate.clone()).clone();
+                    result = self.db.addCandidate(newCandidate.clone()).clone();
+                    io:println(result.clone());
+                    response.statusCode = result is Sucess ? 201 : 400;
                 }
+                response.setJsonPayload(result is error ? result.message() : result.toJson());
             }
         }
 
         else if fileType == VOTERS {
             NewVoter[] newVoters = check recordFromCSV:createVoterRecord(csvLines, election_id);
+            io:println(newVoters);
 
             foreach var newVoter in newVoters {
+                Sucess|Faild|error result;
                 lock {
-                    VoterAdded|http:BadRequest _ = check self.db.addVoter(newVoter.clone()).clone();
+                    result = self.db.addVoter(newVoter.clone()).clone();
+                    response.statusCode = result is Sucess ? 201 : 400;
                 }
+                response.setJsonPayload(result is error ? result.message() : result.toJson());
             }
         }
-        response.setPayload(csvLines);
+        // response.setPayload(csvLines);
 
         return response;
     }

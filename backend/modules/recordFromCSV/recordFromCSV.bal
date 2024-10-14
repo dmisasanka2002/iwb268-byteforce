@@ -28,10 +28,10 @@ public isolated function createVoterRecord(string[][] inputCSVData, string elect
     NewVoter[] voters = [];
     error[] errors = [];
     foreach var line in inputCSVData {
-        boolean|error verifyEmail = validations:VerifyEmail(line[1].trim());
-        boolean|error verifyNIC = validations:verifyNIC(line[2].trim());
+        validations:Verify verifyEmail = validations:VerifyEmail(line[1].trim());
+        validations:Verify verifyNIC = <validations:Verify>validations:verifyNIC(line[2].trim());
 
-        if verifyEmail is boolean && verifyNIC is boolean {
+        if verifyEmail.isSuccess && verifyNIC.isSuccess {
 
             NewVoter voter = {
                 election_id: check int:fromString(election_id),
@@ -42,7 +42,6 @@ public isolated function createVoterRecord(string[][] inputCSVData, string elect
             voters.push(voter);
         }
         else {
-            errors.push(error(string `Error occurred when saving ${line[0]}`));
         }
 
     }

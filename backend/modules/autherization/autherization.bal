@@ -1,5 +1,3 @@
-// TODO: write autherization module for authorization
-
 import ballerina/jwt;
 
 # Description.
