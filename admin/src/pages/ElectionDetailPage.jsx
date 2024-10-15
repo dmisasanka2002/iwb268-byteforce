@@ -76,53 +76,57 @@ const ElectionDetailPage = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen flex flex-col items-center">
-      <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+    <div className="flex flex-col items-center min-h-screen p-6 bg-gray-50">
+      <h1 className="mb-6 text-3xl font-bold text-center text-blue-700">
         Election Detail
       </h1>
 
-      {/* Statistics Section */}
-      <div className="bg-white p-6 rounded-lg shadow-lg mb-8 w-full max-w-4xl">
-        <h2 className="text-2xl font-semibold mb-4 text-blue-600 text-center">
-          Statistics
-        </h2>
+      <div>
+        {/* Statistics Section */}
+        <div className="w-full max-w-4xl p-6 mb-8 bg-white rounded-lg shadow-lg">
+          <h2 className="mb-4 text-2xl font-semibold text-center text-blue-600">
+            Statistics
+          </h2>
 
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-blue-100 p-4 rounded-lg shadow-md text-center">
-            <h3 className="text-lg font-medium text-gray-700">Total Votes</h3>
-            <p className="text-2xl font-bold text-gray-900 mt-2">
-              {totalVotes}
-            </p>
-          </div>
-          <div className="bg-blue-100 p-4 rounded-lg shadow-md text-center">
-            <h3 className="text-lg font-medium text-gray-700">
-              Total Registered Voters
-            </h3>
-            <p className="text-2xl font-bold text-gray-900 mt-2">
-              {assignedVoters}
-            </p>
-          </div>
-          <div className="bg-blue-100 p-4 rounded-lg shadow-md text-center">
-            <h3 className="text-lg font-medium text-gray-700">Voter Turnout</h3>
-            <p className="text-2xl font-bold text-gray-900 mt-2">
-              {voterTurnout}%
-            </p>
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3">
+            <div className="p-4 text-center bg-blue-100 rounded-lg shadow-md">
+              <h3 className="text-lg font-medium text-gray-700">Total Votes</h3>
+              <p className="mt-2 text-2xl font-bold text-gray-900">
+                {totalVotes}
+              </p>
+            </div>
+            <div className="p-4 text-center bg-blue-100 rounded-lg shadow-md">
+              <h3 className="text-lg font-medium text-gray-700">
+                Total Registered Voters
+              </h3>
+              <p className="mt-2 text-2xl font-bold text-gray-900">
+                {assignedVoters}
+              </p>
+            </div>
+            <div className="p-4 text-center bg-blue-100 rounded-lg shadow-md">
+              <h3 className="text-lg font-medium text-gray-700">Voter Turnout</h3>
+              <p className="mt-2 text-2xl font-bold text-gray-900">
+                {voterTurnout}%
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Pie Charts Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
-        <PieChart data={voterTurnoutData} title="Voter Turnout" />
-        <PieChart
-          data={candidateVoteData}
-          title="Candidate Vote Distribution"
-        />
-      </div>
+        {/* Pie Charts Section */}
+        <div className="grid w-full max-w-4xl grid-cols-1 gap-9 md:grid-cols-2">
+          <PieChart data={voterTurnoutData} title="Voter Turnout" />
+          <PieChart
+            data={candidateVoteData}
+            title="Candidate Vote Distribution"
+          />
+        </div>
 
+        <ElectionResults electionId={id} />
+
+      </div>
+      
       {/* Election Results Component */}
-      <ElectionResults electionId={id} />
     </div>
   );
 };

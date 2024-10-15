@@ -40,13 +40,13 @@ const ElectionForm = () => {
   return (
     <>
       {/* Navbar */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-600 h-16">
-        <div className="container mx-auto flex justify-between items-center p-4">
-          <h1 className="text-white text-2xl font-bold">E-Voting System</h1>
+      <div className="h-[65px] bg-blue-800 shadow-lg rounded-b-xl">
+        <div className="container flex items-center justify-between p-4 mx-auto">
+          <h1 className="text-2xl font-bold text-white">E-Voting System</h1>
           <nav className="space-x-4">
             <Link
               to="/admin-dashboard"
-              className="border border-white rounded-full px-5 py-3 text-white hover:bg-white hover:text-gray-800 transition duration-200"
+              className="px-5 py-3 text-white transition duration-200 border border-white rounded-full hover:bg-white hover:text-gray-800"
             >
               Back To Dashboard
             </Link>
@@ -55,10 +55,10 @@ const ElectionForm = () => {
       </div>
 
       {/* Election Form */}
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-cyan-600 via-purple-600 to-blue-600">
+      <div className="flex items-center justify-center min-h-screen bg-white">
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="bg-white bg-opacity-80 rounded-lg shadow-lg p-8 space-y-6"
+          className="p-8 space-y-6 bg-white rounded-lg shadow-lg bg-opacity-80"
         >
           <h2 className="text-2xl font-bold text-center text-gray-800">
             Create Election
@@ -87,7 +87,7 @@ const ElectionForm = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition duration-200"
+            className="w-full px-4 py-2 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
           >
             Create Election
           </button>
