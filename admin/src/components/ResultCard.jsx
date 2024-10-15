@@ -1,5 +1,12 @@
 import React from "react";
 
+/**
+ * A component that displays the result of a candidate in an election.
+ *
+ * @param {{name: string, votes: number}} candidate The candidate object with name and votes.
+ * @param {number} totalVotes The total number of votes in the election.
+ * @returns {JSX.Element} A JSX element representing the result card.
+ */
 const ResultCard = ({ candidate, totalVotes }) => {
   const votePercentage = candidate.votes
     ? ((candidate.votes / totalVotes) * 100).toFixed(2)

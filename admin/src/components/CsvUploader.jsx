@@ -5,6 +5,17 @@ import { ElectionContext } from "../contexts/ElectionContext";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+/**
+ * Component that renders a drag-and-drop area for uploading a CSV file.
+ * The component will display a success message if the upload is successful,
+ * an error message if the upload fails, and an info message if no file is
+ * uploaded. The component also includes a hidden file input that can be
+ * used for normal file input.
+ *
+ * @param {string} fileType - The type of file being uploaded, either "CANDIDATES" or "VOTERS".
+ *
+ * @return {React.ReactElement} - A React component that renders the drag-and-drop area.
+ */
 const CsvUploader = ({ fileType }) => {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
@@ -53,6 +64,13 @@ const CsvUploader = ({ fileType }) => {
     inputRef.current.click(); // Simulate a click on the hidden file input
   };
 
+  /**
+   * Handles the form submission. If a valid CSV file is uploaded, it uploads
+   * the file to the server and displays a success message if the upload is
+   * successful. If the upload fails, it displays an error message. If no file is
+   * uploaded, it displays an info message.
+   * @param {Event} event - The form submission event.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (file) {

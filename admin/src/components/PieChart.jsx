@@ -5,6 +5,15 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 // Register the required components with Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
+/**
+ * A React component that renders a pie chart. The chart is responsive and
+ * scales when the component is hovered.
+ *
+ * @param {Object} data - The data for the chart, as expected by the
+ *   `react-chartjs-2` library.
+ * @param {string} title - The title of the chart.
+ */
+
 const PieChart = ({ data, title }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-6 transition-all duration-300 transform hover:scale-105 max-w-full mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg">

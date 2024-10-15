@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import "../styles/VoterList.css"; // Import CSS for styling
 import { ElectionContext } from "../contexts/ElectionContext";
 
+/**
+ * Component that displays a list of voters for an election.
+ *
+ * @param {string} electionId - The id of the election.
+ * @returns {React.ReactElement} - A React component that displays a list of voters.
+ */
 const VoterList = ({ electionId }) => {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(true);

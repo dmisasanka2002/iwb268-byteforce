@@ -6,6 +6,16 @@ import ConfirmationModal from "../components/ConfirmationModal";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { toast } from "react-toastify";
 
+/**
+ * A page that displays a list of candidates for an election and allows a voter
+ * to vote for one of them. The page will display a confirmation modal before
+ * submitting the vote to the server. If the vote is successful, the page will
+ * display a success message and disable all the vote buttons. If the vote fails,
+ * the page will display an error message.
+ *
+ * @param {string} electionId - The id of the election for which the vote is being cast.
+ * @returns {React.ReactElement} - A React component that renders the vote page.
+ */
 const VotePage = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
   const [hasVoted, setHasVoted] = useState(false);
@@ -18,6 +28,10 @@ const VotePage = ({ electionId }) => {
   const { id } = useParams();
 
   useEffect(() => {
+    /**
+     * Fetches the list of candidates for the election and updates the component's
+     * state with the response.
+     */
     const fetchCandidates = async () => {
       const response = await getCandidates(id);
       setCandidates(response);
@@ -26,12 +40,26 @@ const VotePage = ({ electionId }) => {
     fetchCandidates();
   }, [electionId]);
 
+  /**
+   * Handles a vote button click event. It sets the candidate to vote for in the
+   * component's state and displays a confirmation modal to confirm the vote.
+   *
+   * @param {Object} candidate - The candidate object to vote for.
+   */
   const handleVoteClick = (candidate) => {
     setCandidateToVote(candidate); // Save the candidate to vote for
     setMessage(`Are you sure you want to vote for ${candidate?.name}?`);
     setShowModal(true); // Show the confirmation modal
   };
 
+  /**
+   * Handles the confirmation button click event in the confirmation modal.
+   *
+   * If the voter has not voted before and the candidate to vote for is not null,
+   * it will cast the vote to the server and update the component's state with the
+   * response. If the vote is successful, it will show a success message and disable
+   * all the vote buttons. If the vote fails, it will show an error message.
+   */
   const handleConfirmVote = async () => {
     if (!hasVoted && candidateToVote) {
       const res = await castVote({
@@ -52,6 +80,11 @@ const VotePage = ({ electionId }) => {
     }
   };
 
+  /**
+   * Handles the cancel button click event in the confirmation modal.
+   *
+   * It hides the modal and resets the selected candidate to null.
+   */
   const handleCancelVote = () => {
     setShowModal(false); // Close the modal on cancel
     setCandidateToVote(null); // Reset the selected candidate

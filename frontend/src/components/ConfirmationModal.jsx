@@ -1,6 +1,15 @@
 import React from "react";
 import "../styles/ConfirmationModal.css"; // Create and import a CSS file for styling
 
+/**
+ * A modal that prompts the user to confirm an action.
+ *
+ * @param {string} message The message to display in the modal.
+ * @param {function} onConfirm The function to call when the user confirms.
+ * @param {function} onCancel The function to call when the user cancels.
+ *
+ * @returns {React.Component} The rendered modal component.
+ */
 const ConfirmationModal = ({ message, onConfirm, onCancel }) => {
   return (
     <div className="modal-overlay">

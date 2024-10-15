@@ -17,6 +17,13 @@ const generateColorPalette = (numColors) => {
   return colors;
 };
 
+/**
+ * A page that displays detailed statistics about an election, including total
+ * votes cast, voter turnout, and the distribution of votes among candidates.
+ *
+ * @returns {React.ReactElement} - A React component that renders the election
+ * details page.
+ */
 const ElectionDetailPage = () => {
   const { id } = useParams();
   const [totalVotes, setTotalVotes] = useState(0);
@@ -35,7 +42,7 @@ const ElectionDetailPage = () => {
       // Fetch the total number of assigned voters for the given election
       const votersCount = await getAssignedVoters(id);
 
-      const turnout = ((total / votersCount) * 100).toFixed(2); // Voter turnout as a percentage
+      const turnout = total ? ((total / votersCount) * 100).toFixed(2) : 0; // Voter turnout as a percentage
 
       setTotalVotes(total);
       setVoterTurnout(turnout);
@@ -105,7 +112,9 @@ const ElectionDetailPage = () => {
               </p>
             </div>
             <div className="p-4 text-center bg-blue-100 rounded-lg shadow-md">
-              <h3 className="text-lg font-medium text-gray-700">Voter Turnout</h3>
+              <h3 className="text-lg font-medium text-gray-700">
+                Voter Turnout
+              </h3>
               <p className="mt-2 text-2xl font-bold text-gray-900">
                 {voterTurnout}%
               </p>
@@ -123,9 +132,8 @@ const ElectionDetailPage = () => {
         </div>
 
         <ElectionResults electionId={id} />
-
       </div>
-      
+
       {/* Election Results Component */}
     </div>
   );

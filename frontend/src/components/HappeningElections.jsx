@@ -2,6 +2,12 @@ import React, { useContext } from "react";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { Link } from "react-router-dom";
 
+/**
+ * Component that displays a list of ongoing elections with a link to vote in each one.
+ *
+ * @returns {React.ReactElement} A React component that displays a list of ongoing elections.
+ */
+
 function HappeningElections() {
   const { happeningElections } = useContext(ElectionContext);
   return (

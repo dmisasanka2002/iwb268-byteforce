@@ -5,6 +5,21 @@ import "../styles/CandidateList.css"; // Import CSS for styling
 import { ElectionContext } from "../contexts/ElectionContext";
 import { toast } from "react-toastify";
 
+/**
+ * A component that displays a list of candidates for an election and allows
+ * a user to edit one of them. The component fetches the list of candidates
+ * from the server and displays them in an unordered list. Each candidate is
+ * displayed with their number and name, and an edit button. When the edit
+ * button is clicked, a form appears to allow the user to edit the candidate's
+ * name. After the user submits the form, the component updates the candidate
+ * list with the new name. If the user clicks the cancel button, the form
+ * disappears and the candidate list is not updated.
+ *
+ * @param {string} electionId - The id of the election whose candidates should
+ * be displayed.
+ * @returns {React.ReactElement} - A React component that renders the candidate
+ * list and edit form.
+ */
 const CandidateList = ({ electionId }) => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,8 +30,12 @@ const CandidateList = ({ electionId }) => {
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
-  // const { electionId } = useContext(ElectionContext);
-
+  /**
+   * Fetches the list of candidates for an election and updates the component's
+   * state with the response. If the request is successful, the candidate list
+   * is updated. If the request fails, the error message is updated.
+   * @returns {void} - No return value.
+   */
   const fetchCandidates = async () => {
     try {
       const res = await getCandidates(electionId);

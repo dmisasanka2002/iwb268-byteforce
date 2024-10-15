@@ -3,6 +3,12 @@ import { ElectionContext } from "../contexts/ElectionContext";
 import "../styles/ElectionList.css";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Component that displays a list of elections with a link to vote in each one.
+ *
+ * @return {React.ReactElement} A React component that displays a list of elections.
+ */
+
 const ElectionList = () => {
   const {
     setElectionId,
@@ -32,6 +38,13 @@ const ElectionList = () => {
     }
   };
 
+  /**
+   * Converts a date string into a formatted date string, with the format
+   * "MMMM DD, YYYY HH:mm:ss".
+   *
+   * @param {string} dateString - The date string to format.
+   * @returns {string} The formatted date string.
+   */
   const formatDateTime = (dateString) => {
     const options = {
       year: "numeric",

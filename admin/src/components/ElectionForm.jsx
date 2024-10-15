@@ -4,6 +4,15 @@ import { ElectionContext } from "../contexts/ElectionContext";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
+/**
+ * ElectionForm is a React component that renders a form to create an election.
+ * The component uses the ElectionContext to access the state and functions of the
+ * ElectionContextProvider. The form takes in the title, start time and end time of
+ * the election and calls the createElection function to create the election on
+ * submission. The component also redirects to the candidate creation page after
+ * the election is created.
+ * @returns {React.ReactElement} - A React component that renders a form to create an election.
+ */
 const ElectionForm = () => {
   const {
     setElectionId,
@@ -18,6 +27,13 @@ const ElectionForm = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
+  /**
+   * Handles the form submission. If the form is valid, it creates a new election
+   * using the createElection function and redirects to the candidate creation
+   * page. If the election fails to be created, it displays an error message and
+   * does not redirect.
+   * @param {Event} e - The form submission event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.preventDefault();

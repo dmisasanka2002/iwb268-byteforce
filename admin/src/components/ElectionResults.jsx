@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import { getElectionResults } from "../services/electionService";
 import ResultCard from "./ResultCard";
 
+/**
+ * Displays the results of an election in a grid of cards.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.electionId The ID of the election to display the results for.
+ *
+ * @returns {React.ReactElement} A React component that renders the election results.
+ */
 const ElectionResults = ({ electionId }) => {
   const [results, setResults] = useState([]);
 

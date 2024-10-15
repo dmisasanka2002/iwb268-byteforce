@@ -5,6 +5,18 @@ import HappeningElections from "./HappeningElections";
 import { ElectionContext } from "../contexts/ElectionContext";
 import { verifyVoterEmail, verifyVoterNIC } from "../services/authService";
 
+/**
+ * A React component that handles the login process for voters.
+ *
+ * It uses the Google One Tap library to sign in with a Google account.
+ * If the voter is not verified, it will show a form to enter the NIC number.
+ * If the voter is verified, it will show a button to vote.
+ *
+ * This component will also display a list of elections that the voter can vote in.
+ *
+ * @returns {JSX.Element} The JSX element representing the voter login component.
+ */
+
 const VoterLogin = () => {
   const [isNICVerified, setIsNICVerified] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
@@ -13,6 +25,16 @@ const VoterLogin = () => {
   const { nic, setNic, setVorterId, fetchElectionList } =
     useContext(ElectionContext);
 
+  /**
+   * Handles the login process after a user has signed in with Google One Tap.
+   *
+   * It takes the credentialResponse object as a parameter, which contains the user's email and other information.
+   *
+   * If the response is successful (200 status code), it will fetch the list of elections for the voter and set the isVerified state to true.
+   * If the response is not successful, it will display an error message and set the isVerified state to false.
+   *
+   * @param {Object} credentialResponse The credentialResponse object returned by Google One Tap.
+   */
   const handleLogin = async (credentialResponse) => {
     setError(""); // Reset error message
 
@@ -32,6 +54,16 @@ const VoterLogin = () => {
     }
   };
 
+  /**
+   * Handles the submission of the NIC form.
+   *
+   * If the NIC is empty, it will show an error message.
+   * If the NIC is not empty, it will send a request to the server to verify the NIC.
+   * If the response is successful (200 status code), it will show a success message and set the isNICVerified state to true.
+   * If the response is not successful, it will show an error message and set the isNICVerified state to false.
+   *
+   * @param {Event} e The event object, which is the submission of the form.
+   */
   const handleNICLogin = async (e) => {
     e.preventDefault();
     setError(""); // Reset error message
