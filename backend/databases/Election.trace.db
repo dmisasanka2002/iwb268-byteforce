@@ -125,8 +125,6 @@ SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
 2024-10-09 20:50:04 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
 SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
-<<<<<<< HEAD
-=======
 2024-10-10 14:54:09 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
 SELECT COUNT(*) AS total FROM VOTERS WHERE ELECTION_ID =  ? [90001-220]
@@ -352,7 +350,6 @@ SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
 2024-10-11 22:44:22 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
 SELECT * FROM CANDIDATES WHERE ELECTION_ID =  ? [22018-220]
->>>>>>> add-statistics-charts
 2024-10-14 21:14:42 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "undefined"; SQL statement:
 UPDATE CANDIDATES SET NUMBER =  ?  AND NAME =  ?  WHERE ID =  ? [22018-220]

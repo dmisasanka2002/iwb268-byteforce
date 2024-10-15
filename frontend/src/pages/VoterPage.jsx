@@ -6,7 +6,6 @@ import VoterLogin2 from "../components/VoterLogin";
 const VoterPage = () => {
   return (
     <div className="voter-page-container">
-      {/* <VoterLogin /> */}
       <VoterLogin2 />
     </div>
   );

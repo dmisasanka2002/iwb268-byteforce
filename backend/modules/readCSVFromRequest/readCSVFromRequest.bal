@@ -5,8 +5,8 @@ import ballerina/mime;
 //Read the incoming data in bytes and extracts CSV data
 # Description.
 #
-# + request - parameter description
-# + return - return value description
+# + request - http request with csv file
+# + return - lines of csv file
 public isolated function extractCSVLines(http:Request request) returns string[][]|error {
     var bodyParts = request.getBodyParts();
     if (bodyParts is mime:Entity[]) {

@@ -3,9 +3,9 @@ import backend.validations;
 
 # Description.
 #
-# + inputCSVData - parameter description  
-# + election_id - parameter description
-# + return - return value description
+# + inputCSVData - array of lines of csv data  
+# + election_id - election id
+# + return - the record that create using csv data
 public isolated function createCandidateRecord(string[][] inputCSVData, string election_id) returns NewCandidate[]|error {
     NewCandidate[] candidates = [];
     foreach var line in inputCSVData {
@@ -21,9 +21,9 @@ public isolated function createCandidateRecord(string[][] inputCSVData, string e
 
 # Description.
 #
-# + inputCSVData - parameter description  
-# + election_id - parameter description
-# + return - return value description
+# + inputCSVData - array of lines of csv data  
+# + election_id - election id
+# + return - the record that create using csv data
 public isolated function createVoterRecord(string[][] inputCSVData, string election_id) returns NewVoter[]|error {
     NewVoter[] voters = [];
     foreach var line in inputCSVData {

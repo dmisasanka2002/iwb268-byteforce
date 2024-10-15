@@ -3,8 +3,8 @@ import ballerina/time;
 
 # Description.
 #
-# + startTime - field description  
-# + endTime - field description
+# + startTime - start time with "2024-10-12T05:42:35Z" format 
+# + endTime - end time with "2024-10-12T05:42:35Z" format
 public type Times record {|
     string startTime;
     string endTime;
@@ -12,10 +12,10 @@ public type Times record {|
 
 # Description.
 #
-# + id - field description  
-# + name - field description  
-# + startDate - field description  
-# + endDate - field description
+# + id - id of election data  
+# + name - name of election  
+# + startDate - start date of election that provide the record Times  
+# + endDate - end date of election that provide the record Times
 public type ElectionData record {
     @sql:Column {
         name: "ID"
@@ -60,8 +60,8 @@ public isolated function civilToIsoString(time:Civil time) returns string|error 
 
 # Description.
 #
-# + times - parameter description
-# + return - return value description
+# + times - array of time:Civil type data
+# + return - iso type string types time of times[]
 public isolated function convertTimes(time:Civil[] times) returns Times|error {
     Times isoStrings = {startTime: "", endTime: ""};
     isoStrings.startTime = check civilToIsoString(times[0]);

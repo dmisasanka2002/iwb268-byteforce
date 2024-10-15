@@ -4,6 +4,10 @@ public type Verify record {|
 |};
 
 // Function to verify the NIC
+# Description.
+#
+# + nic - nic number of the user
+# + return - nic is verified or not with reasons
 public isolated function verifyNIC(string nic) returns boolean|Verify {
     Verify result = {isSuccess: false, message: ""};
     // Check if the NIC is empty
@@ -40,6 +44,10 @@ public isolated function verifyNIC(string nic) returns boolean|Verify {
 }
 
 // Function to verify the email
+# Description.
+#
+# + email - email of the user
+# + return - email is verified or not with reasons
 public isolated function VerifyEmail(string email) returns Verify {
     Verify result = {isSuccess: false, message: ""};
     // Check if the email is empty
