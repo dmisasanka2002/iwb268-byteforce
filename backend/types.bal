@@ -140,12 +140,10 @@ public type NewVoter record {|
 # Description.
 #
 # + email - field description  
-# + password - field description  
-# + userName - field description
+# + password - field description 
 public type NewAdmin record {|
     string email;
     string password;
-    string userName;
 |};
 
 # Description.

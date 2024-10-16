@@ -58,6 +58,35 @@ public class Database {
         )`);
     }
 
+    // Create a new admin according to the NewAdmin Record.
+    isolated function createAdmin(NewAdmin newAdmin) returns error|Faild {
+        Sucess success = {isSuccess: true, message: "Succesfully Registered", body: {id: ""}};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
+        // Prepare the SQL query to insert the new election
+        sql:ParameterizedQuery query = `INSERT INTO ADMINS (EMAIL, PASSWORD) VALUES (${newAdmin.email}, ${newAdmin.password})`;
+
+        // Execute the query
+        sql:ExecutionResult|sql:Error result = self.dbClient->execute(query);
+
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        success.body = id is int ? {id: id} : {};
+        return id is int ? success : faild;
+    }
+
+    isolated function loginAdmin(string email, string password) returns Faild {
+        Sucess success = {isSuccess: true, message: "Succesfully login", body: {id: ""}};
+        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
+
+        sql:ParameterizedQuery query = `SELECT * FROM ADMINS WHERE EMAIL = ${email} AND PASSWORD = ${password}`;
+        sql:ExecutionResult|sql:Error result = self.dbClient->queryRow(query);
+
+        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
+        faild.message = id is string ? id : "";
+        success.body = id is int ? {id: id} : {};
+        return id is int ? success : faild;
+    }
+
     // Create a new election according to NewElection Record.
     isolated function createElection(NewElection newElection) returns error|Faild {
         Sucess success = {isSuccess: true, message: "Succesfully Create a new Election", body: {id: ""}};

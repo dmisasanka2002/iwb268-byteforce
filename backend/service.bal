@@ -28,6 +28,31 @@ isolated service /api on new http:Listener(9090) {
         self.db = check new Database("Election");
     }
 
+    resource function post admin/register(@http:Payload json data) returns error|http:Response {
+        http:Response responce = new;
+        Sucess|Faild result;
+        NewAdmin newAdmin = {password: check data.password, email: check data.email};
+
+        lock {
+            result = check self.db.createAdmin(newAdmin.clone()).clone();
+        }
+        responce.setJsonPayload(result.toJson());
+        return responce;
+    }
+
+    resource function post admin/signin(@http:Payload json data) returns error|http:Response {
+        http:Response responce = new;
+        Sucess|Faild result;
+        string password = check data.password;
+        string email = check data.email;
+
+        lock {
+            result = self.db.loginAdmin(email, password).clone();
+        }
+        responce.setJsonPayload(result.toJson());
+        return responce;
+    }
+
     // success with new return types.
     resource function post election/create(@http:Payload json data) returns error|http:Response {
         http:Response responce = new;
