@@ -54,11 +54,11 @@ const addnewadmin = () => {
             </h1>
             <nav className="space-x-6">
             <Link
-    to="/"
-    className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
->
-    Back to Admin
-</Link>
+                to="/"
+                className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
+            >
+                Back to Admin
+            </Link>
 
 
             </nav>
