@@ -92,6 +92,7 @@ const addnewadmin = () => {
         <ToastContainer />
       </div>
     </div>
+
     </>
 
   );
