@@ -36,6 +36,7 @@ isolated service /api on new http:Listener(9090) {
         lock {
             result = check self.db.createAdmin(newAdmin.clone()).clone();
         }
+
         responce.setJsonPayload(result.toJson());
         return responce;
     }
@@ -49,6 +50,8 @@ isolated service /api on new http:Listener(9090) {
         lock {
             result = self.db.loginAdmin(email, password).clone();
         }
+
+
         responce.setJsonPayload(result.toJson());
         return responce;
     }

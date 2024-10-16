@@ -22,11 +22,18 @@ const AdminDashboard = () => {
           </h1>
           <nav className="space-x-6">
             <Link
+                to="/admin-dashboard/addnewadmin"
+                className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
+              >
+                Add New Admins
+            </Link>
+            <Link
               to="/election/new"
-              className="px-5 py-2 text-center text-white transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg"
-            >
+              className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
+              >
               Create New Election
             </Link>
+
           </nav>
         </div>
       </div>
