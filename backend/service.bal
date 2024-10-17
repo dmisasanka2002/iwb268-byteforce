@@ -29,6 +29,7 @@ isolated service /api on new http:Listener(9090) {
     }
 
     resource function post admin/register(@http:Payload json data) returns error|http:Response {
+        io:println(data);
         http:Response responce = new;
         Sucess|Faild result;
         NewAdmin newAdmin = {password: check data.password, email: check data.email};
