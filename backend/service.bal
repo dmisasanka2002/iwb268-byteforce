@@ -5,7 +5,6 @@ import backend.timeConvert;
 import backend.validations;
 
 import ballerina/http;
-import ballerina/io;
 import ballerina/jwt;
 import ballerina/time;
 
@@ -29,7 +28,6 @@ isolated service /api on new http:Listener(9090) {
     }
 
     resource function post admin/register(@http:Payload json data) returns error|http:Response {
-        io:println(data);
         http:Response responce = new;
         Sucess|Faild result;
         NewAdmin newAdmin = {password: check data.password, email: check data.email};
@@ -51,7 +49,6 @@ isolated service /api on new http:Listener(9090) {
         lock {
             result = self.db.loginAdmin(email, password).clone();
         }
-
 
         responce.setJsonPayload(result.toJson());
         return responce;
@@ -216,7 +213,6 @@ isolated service /api on new http:Listener(9090) {
     }
 
     resource function put candidate/update/[string candidate_id](NewCandidate updateCandidate) returns error|http:Response {
-        io:println(updateCandidate);
         http:Response responce = new;
         Sucess|Faild candidate;
 
@@ -240,7 +236,6 @@ isolated service /api on new http:Listener(9090) {
             Sucess|Faild voter;
             lock {
                 voter = check self.db.addVoter(newVoter.clone()).clone();
-                io:println(voter.clone());
             }
             if voter is Sucess {
                 responce.statusCode = 200;
@@ -279,7 +274,6 @@ isolated service /api on new http:Listener(9090) {
                 Sucess|Faild|error result;
                 lock {
                     result = self.db.addCandidate(newCandidate.clone()).clone();
-                    io:println(result.clone());
                     response.statusCode = result is Sucess ? 201 : 400;
                 }
                 response.setJsonPayload(result is error ? result.message() : result.toJson());
@@ -288,7 +282,6 @@ isolated service /api on new http:Listener(9090) {
 
         else if fileType == VOTERS {
             NewVoter[] newVoters = check recordFromCSV:createVoterRecord(csvLines, election_id);
-            io:println(newVoters);
 
             foreach var newVoter in newVoters {
                 Sucess|Faild|error result;

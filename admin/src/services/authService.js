@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const backURL = import.meta.env.VITE_BACKENDURL;
+
 /**
  * Verifies a voter by their email address and NIC number.
  *
@@ -9,4 +11,27 @@ import axios from "axios";
 export const verifyVoter = async (voterData) => {
   const response = await axios.post(`/api/voters/verify`, voterData);
   return response.data;
+};
+
+export const registerAdmin = async (adminData) => {
+  try {
+    const response = await axios.post(
+      `${backURL}/api/admin/register`,
+      adminData
+    );
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const loginAdmin = async (adminData) => {
+  try {
+    const response = await axios.post(`${backURL}/api/admin/signin`, adminData);
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };

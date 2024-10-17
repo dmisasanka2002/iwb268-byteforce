@@ -1,5 +1,4 @@
 import ballerina/file;
-import ballerina/io;
 import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
@@ -74,26 +73,20 @@ public class Database {
         return id is int ? success : faild;
     }
 
-isolated function loginAdmin(string email, string password) returns Faild|Sucess {
-    Sucess success = {isSuccess: true, message: "Successfully logged in"};
-    Faild faild = {isSuccess: false, message: "Error occurred while retrieving the admin id"};
+    isolated function loginAdmin(string email, string password) returns Faild|Sucess {
+        Sucess success = {isSuccess: true, message: "Successfully logged in!"};
+        Faild faild = {isSuccess: false, message: "Error occurred while retrieving the admin id"};
 
-    sql:ParameterizedQuery query = `SELECT ID FROM ADMINS WHERE EMAIL = ${email} AND PASSWORD = ${password}`;
-    sql:ExecutionResult|sql:Error result = self.dbClient->queryRow(query);
+        sql:ParameterizedQuery query = `SELECT ID FROM ADMINS WHERE EMAIL = ${email} AND PASSWORD = ${password}`;
+        sql:ExecutionResult|sql:Error result = self.dbClient->queryRow(query);
 
-    if (result is sql:ExecutionResult) {
-        // Assuming ID is the primary key in the ADMINS table
-        // int id = result.getRow().id; // Access the ID directly from the row
-        // success.body.id = id.toString(); // Convert to string to match your structure
-        return success;
-    } else {
-        faild.message = result.message();
-        return faild;
+        if (result is sql:ExecutionResult) {
+            return success;
+        } else {
+            faild.message = result.message();
+            return faild;
+        }
     }
-}
-
-
-
 
     // Create a new election according to NewElection Record.
     isolated function createElection(NewElection newElection) returns error|Faild {
@@ -191,7 +184,6 @@ isolated function loginAdmin(string email, string password) returns Faild|Sucess
     }
 
     isolated function updateCandidate(NewCandidate updateCandidate, string candidateId) returns Sucess|Faild|error {
-        io:println(candidateId);
         Sucess success = {isSuccess: true, message: "Update Succesfull.", body: ""};
         Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
         sql:ParameterizedQuery query = `UPDATE CANDIDATES SET NAME = ${updateCandidate.name} WHERE ID = ${candidateId}`;
