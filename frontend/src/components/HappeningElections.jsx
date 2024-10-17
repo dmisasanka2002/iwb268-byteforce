@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 function HappeningElections() {
   const { happeningElections } = useContext(ElectionContext);
+
   return (
     <div className="space-y-8">
       {/* Happening Elections */}

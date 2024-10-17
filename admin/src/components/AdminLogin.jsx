@@ -49,12 +49,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div
-      // className="flex items-center justify-center min-h-screen bg-center bg-cover"
-      // style={{ backgroundImage: `url('/images/admin-login-bg-I.jpg')` }}
-      className="relative flex items-center justify-center max-h-screen min-h-screen bg-slate-950 "
-    >
-      {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" /> */}
+    <div className="relative flex items-center justify-center max-h-screen min-h-screen bg-slate-950 ">
       <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] size-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]" />
       <div className="absolute bottom-0 right-[-20%] top-[-10%] size-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]" />
       <div className="rounded-lg shadow-lg bg-white/30 backdrop-blur-lg p-7 w-96">
@@ -93,14 +88,14 @@ const AdminLogin = () => {
           >
             Login
           </button>
-          <div className="mt-4 text-center">
+          {/* <div className="mt-4 text-center">
             <a
               href="/forgot-password"
               className="text-blue-600 hover:underline"
             >
               Forgot Password?
             </a>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

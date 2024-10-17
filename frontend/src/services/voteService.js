@@ -30,8 +30,8 @@ export const castVote = async (voteData) => {
     // TODO: Shold be checked the vote function.
     const response = await axios.post(`${backURL}/api/vote`, voteData);
 
-    return response.data;
+    return response;
   } catch (error) {
-    return error.response.data;
+    return error.response;
   }
 };

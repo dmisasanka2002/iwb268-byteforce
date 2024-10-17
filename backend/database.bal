@@ -3,6 +3,9 @@ import ballerina/sql;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
 
+configurable string defalt_admin = ?;
+configurable string password = ?;
+
 # Description.
 public class Database {
     private string dbPath;
@@ -55,6 +58,20 @@ public class Database {
         FOREIGN KEY (ELECTION_ID) REFERENCES ELECTIONS(ID) ON DELETE CASCADE,
         UNIQUE (ELECTION_ID, NIC, EMAIL)
         )`);
+
+        check self.createDefaultAdmin(defalt_admin, password);
+    }
+
+    isolated function createDefaultAdmin(string sampleEmail, string samplepw) returns sql:Error? {
+        sql:ParameterizedQuery checkQuery = `SELECT COUNT(*) AS rowCount FROM ADMINS`;
+        int|error rowCount = self.dbClient->queryRow(checkQuery);
+
+        if rowCount is int && rowCount == 0 {
+            sql:ParameterizedQuery query = `INSERT INTO ADMINS (EMAIL, PASSWORD) VALUES (${sampleEmail},${samplepw})`;
+
+            // Execute the query
+            sql:ExecutionResult _ = check self.dbClient->execute(query);
+        }
     }
 
     // Create a new admin according to the NewAdmin Record.
@@ -220,7 +237,7 @@ public class Database {
 
             // Step 2: Check if the voter has already voted in this election
             if hasVoted {
-                faild.message = "This voter has already voted in this election.";
+                faild.message = "You are already voted in this election.";
                 return faild;
             }
 

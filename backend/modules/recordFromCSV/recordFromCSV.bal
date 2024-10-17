@@ -1,6 +1,8 @@
 //Construct record values 
 import backend.validations;
 
+import ballerina/io;
+
 # Description.
 #
 # + inputCSVData - array of lines of csv data  
@@ -41,6 +43,7 @@ public isolated function createVoterRecord(string[][] inputCSVData, string elect
             voters.push(voter);
         }
         else {
+            io:println(`error in Line ${line}`);
         }
 
     }

@@ -68,14 +68,15 @@ const VotePage = ({ electionId }) => {
         voterNic: nic,
       });
 
-      if (res.isSuccess) {
+      console.log(res.status);
+
+      if (res.status == 200) {
         setHasVoted(true);
         setShowModal(false); // Hide the modal after vote
-        alert("Vote cast successfully!");
         toast.success("Vote cast successfully!");
       } else {
         // alert(res.message);
-        toast.error(res.message);
+        toast.error(res.data.message);
       }
     }
   };
@@ -133,7 +134,6 @@ const VotePage = ({ electionId }) => {
       {showModal && (
         <ConfirmationModal
           message={message}
-          // message={`Are you sure you want to vote for ${candidateToVote?.name}?`}
           onConfirm={handleConfirmVote}
           onCancel={handleCancelVote}
         />

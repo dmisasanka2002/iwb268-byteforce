@@ -1,17 +1,15 @@
 {
-    "scripts": {
-        "ballerina": "cd backend && bal run",
-        "next1": "cd admin && npm run dev",
-        "next2": "cd frontend && npm run dev",
-        "start-next1": "start cmd /k \"npm run next1\"", 
-        "start-next2": "start cmd /k \"npm run next2\"", 
-        "start-ballerina": "start cmd /k \"npm run ballerina\"",  
-        "start-all": "npm-run-all --serial start-next1 start-next2 start-ballerina"
-      },
-
-    "devDependencies": {
-        "concurrently": "^9.0.1",
-        "npm-run-all": "^4.1.5"     
-
-    }
+  "scripts": {
+    "ballerina": "cd backend && bal run",
+    "next1": "cd admin && npm run dev",
+    "next2": "cd frontend && npm run dev",
+    "start-next1": "start cmd /k \"npm run next1\"",
+    "start-next2": "start cmd /k \"npm run next2\"",
+    "start-ballerina": "start cmd /k \"npm run ballerina\"",
+    "start-all": "npm-run-all --serial start-next1 start-next2 start-ballerina"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "npm-run-all": "^4.1.5"
+  }
 }
