@@ -74,18 +74,26 @@ public class Database {
         return id is int ? success : faild;
     }
 
-    isolated function loginAdmin(string email, string password) returns Faild {
-        Sucess success = {isSuccess: true, message: "Succesfully login", body: {id: ""}};
-        Faild faild = {isSuccess: false, message: "Error occurred while retriving the candidate id"};
+isolated function loginAdmin(string email, string password) returns Faild|Sucess {
+    Sucess success = {isSuccess: true, message: "Successfully logged in"};
+    Faild faild = {isSuccess: false, message: "Error occurred while retrieving the admin id"};
 
-        sql:ParameterizedQuery query = `SELECT * FROM ADMINS WHERE EMAIL = ${email} AND PASSWORD = ${password}`;
-        sql:ExecutionResult|sql:Error result = self.dbClient->queryRow(query);
+    sql:ParameterizedQuery query = `SELECT ID FROM ADMINS WHERE EMAIL = ${email} AND PASSWORD = ${password}`;
+    sql:ExecutionResult|sql:Error result = self.dbClient->queryRow(query);
 
-        string|int? id = result is sql:ExecutionResult ? result.lastInsertId : result.message();
-        faild.message = id is string ? id : "";
-        success.body = id is int ? {id: id} : {};
-        return id is int ? success : faild;
+    if (result is sql:ExecutionResult) {
+        // Assuming ID is the primary key in the ADMINS table
+        // int id = result.getRow().id; // Access the ID directly from the row
+        // success.body.id = id.toString(); // Convert to string to match your structure
+        return success;
+    } else {
+        faild.message = result.message();
+        return faild;
     }
+}
+
+
+
 
     // Create a new election according to NewElection Record.
     isolated function createElection(NewElection newElection) returns error|Faild {

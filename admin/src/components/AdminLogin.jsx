@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate instead of useHistory
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import "../styles/AdminLogin.css"; // Import CSS for styling
 
 /**
@@ -17,29 +20,58 @@ const AdminLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Perform basic validation
     if (!email || !password) {
-      setErrorMessage("Please enter both email and password.");
+      toast.error("Please enter both email and password.");
       return;
     }
-
-    // Simulate admin login (replace with real login logic)
-    if (email === "admin@example.com" && password === "admin123") {
-      // Redirect to dashboard after successful login
-      navigate("/admin-dashboard"); // Use navigate instead of history.push
-    } else {
-      setErrorMessage("Invalid email or password. Please try again.");
+  
+    const loginData = {
+      email,
+      password,
+    };
+  
+    try {
+      // Send login request to the API
+      const response = await fetch('http://localhost:9090/api/admin/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+  
+      const result = await response.json();
+  
+      // Check if the login was successful
+      if (result.isSuccess) {
+        toast.success("Successfully logged in!");
+        // Redirect to the dashboard after successful login
+        navigate("/admin-dashboard"); // Use navigate instead of history.push
+      } else {
+        // Set the error message if login fails
+        toast.error( "Invalid email or password. Please try again.");
+      }
+    } catch (error) {
+      // Handle network errors
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
+  
 
   return (
+    
     <div
-      className="flex items-center justify-center min-h-screen bg-center bg-cover"
-      style={{ backgroundImage: `url('/images/admin-login-bg-I.jpg')` }}
+      // className="flex items-center justify-center min-h-screen bg-center bg-cover"
+      // style={{ backgroundImage: `url('/images/admin-login-bg-I.jpg')` }}
+      className="relative flex items-center justify-center max-h-screen min-h-screen bg-slate-950 "
     >
+            {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" /> */}
+            <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] size-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]" />
+            <div className="absolute bottom-0 right-[-20%] top-[-10%] size-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]" />            
       <div className="rounded-lg shadow-lg bg-white/30 backdrop-blur-lg p-7 w-96">
         <h2 className="mb-6 text-3xl font-bold text-center text-white">
           Admin Login

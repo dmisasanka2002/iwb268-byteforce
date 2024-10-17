@@ -13,6 +13,8 @@ import ElectionContextProvider from "./contexts/ElectionContext";
 import CandidateForm from "./components/CandidateForm";
 import VoterForm from "./components/VoterForm";
 import AdminLogin from "./components/AdminLogin";
+import AddNewAdmin from "./components/AddNewAdmin"; // Ensure this path is correct
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -39,6 +41,8 @@ function App() {
         <Routes>
           <Route path="/" element={<AdminLogin />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-dashboard/addnewadmin" element={<AddNewAdmin />} />
+
           <Route path="/election/new" element={<NewElection />} />
           <Route
             path="/election/:id/add/candidates"
