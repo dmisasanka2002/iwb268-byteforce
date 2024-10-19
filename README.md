@@ -6,6 +6,10 @@ This is a smart election system built with **React** and **Ballerina**, designed
 
    Admins add voters using their **Gmail** and **NIC number**. When a voter participates in the election, they need to log in using the **Gmail** address added by the admin and provide their NIC number to cast their vote.
 
+   Additionally, admins can bulk add voters and candidates by uploading a CSV file. A sample template for the CSV format is provided in the samplefolder of this project.
+   
+   Admin management: Admins can also add additional admins to the system to help manage the election process
+
    After the election ends (based on the pre-defined time period), admins can view detailed results, including:
 
    - 📊 A pie chart showing the percentage of total votes.
@@ -13,7 +17,7 @@ This is a smart election system built with **React** and **Ballerina**, designed
 
    _(Currently, the system supports Gmail login only, but future upgrades will allow other email services.)_
 
-2. **Voter Interface** - Registered voters can log in and participate in the elections during the election time window by using their NIC number and Gmail address.
+3. **Voter Interface** - Registered voters can log in and participate in the elections during the election time window by using their NIC number and Gmail address.
 
 ## 📥 Cloning and Setting Up the Application
 
