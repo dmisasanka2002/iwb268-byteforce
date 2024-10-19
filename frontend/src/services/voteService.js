@@ -27,7 +27,6 @@ export const getCandidates = async (electionId) => {
  */
 export const castVote = async (voteData) => {
   try {
-    // TODO: Shold be checked the vote function.
     const response = await axios.post(`${backURL}/api/vote`, voteData);
 
     return response;

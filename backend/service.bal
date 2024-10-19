@@ -146,6 +146,12 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success with new return types.
+    @http:ResourceConfig {
+        cors: {
+            allowOrigins: ["*"],
+            allowCredentials: true
+        }
+    }
     resource function post voter/verify/credential(http:Request request) returns error|http:Response {
         http:Response responce = new;
         json jsonPayload = check request.getJsonPayload();

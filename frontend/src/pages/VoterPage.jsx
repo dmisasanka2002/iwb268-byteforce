@@ -1,6 +1,5 @@
 import React from "react";
 import VoterLogin from "../components/VoterLogin";
-import VoterLogin2 from "../components/VoterLogin";
 // import "../styles/VoterPage.css"; // Custom CSS for styling
 
 /**
@@ -13,7 +12,7 @@ import VoterLogin2 from "../components/VoterLogin";
 const VoterPage = () => {
   return (
     <div className="voter-page-container">
-      <VoterLogin2 />
+      <VoterLogin />
     </div>
   );
 };

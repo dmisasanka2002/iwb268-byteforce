@@ -37,8 +37,6 @@ const VoterLogin = () => {
   const handleLogin = async (credentialResponse) => {
     setError(""); // Reset error message
 
-    //TODO: Fix the bug of vote function. If there are more elections with same voter, then some errrs occured
-
     const res = await verifyVoterEmail({
       ...credentialResponse,
       nic: nic.toString(),
@@ -68,7 +66,6 @@ const VoterLogin = () => {
     e.preventDefault();
     setError(""); // Reset error message
 
-    //TODO: Replace with actual verification logic
     if (!nic) {
       setError("Please enter NIC."); // Display error
       return;
@@ -86,7 +83,6 @@ const VoterLogin = () => {
   };
 
   return (
-    // TODO: Should be added to google signIn or proper signin options
     <div
       className="relative min-h-screen bg-center bg-cover"
       style={{ backgroundImage: "url('/images/bg-login-II.jpg')" }}

@@ -52,7 +52,7 @@ const VoterForm = () => {
       setTimeout(() => setMessage(""), 3000); // Clear success message after 3 seconds
     } else {
       setError(res.response.data.message);
-      toast.error("Unique index or primary key violation");
+      toast.error(res.response.data.message); //"Unique index or primary key violation"
     }
   };
 
