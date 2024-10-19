@@ -1,0 +1,4 @@
+defalt_admin = "admin@test.com"
+password = "Admin@1234"
+frontUrl = "http://localhost:5174"
+adminUrl = "http://localhost:5173"
