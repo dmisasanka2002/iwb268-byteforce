@@ -19,10 +19,11 @@ import { toast } from "react-toastify";
  */
 const VoterLogin = () => {
   const [isNICVerified, setIsNICVerified] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
+  // const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState(""); // For error handling
 
-  const { nic, setNic, fetchElectionList } = useContext(ElectionContext);
+  const { nic, setNic, fetchElectionList, isVerified, setIsVerified } =
+    useContext(ElectionContext);
 
   /**
    * Handles the login process after a user has signed in with Google One Tap.

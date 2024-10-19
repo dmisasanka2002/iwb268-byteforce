@@ -7,10 +7,7 @@ import {
 } from "react-router-dom";
 import VoterPage from "./pages/VoterPage";
 import "./App.css";
-import ElectionContextProvider from "./contexts/ElectionContext";
 import VotePage from "./pages/VotePage";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 /**
  * The main App component.
@@ -27,8 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   const { id } = useParams();
   return (
-    <ElectionContextProvider>
-      <ToastContainer />
+    <>
       <Router>
         <Routes>
           <Route path="/" element={<VoterPage />} />
@@ -38,7 +34,7 @@ function App() {
           />
         </Routes>
       </Router>
-    </ElectionContextProvider>
+    </>
   );
 }
 

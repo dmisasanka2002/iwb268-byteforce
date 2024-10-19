@@ -29,6 +29,7 @@ export const registerAdmin = async (adminData) => {
 export const loginAdmin = async (adminData) => {
   try {
     const response = await axios.post(`${backURL}/api/admin/signin`, adminData);
+    console.log(response);
 
     return response.data;
   } catch (error) {

@@ -18,6 +18,7 @@ const ElectionContextProvider = (props) => {
   const [elections, setElections] = useState([]); // Store created elections
   const [happeningElections, setHappeningElections] = useState([]);
   const [nic, setNic] = useState(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   const [election, setElection] = useState({
     title: "",
@@ -64,6 +65,8 @@ const ElectionContextProvider = (props) => {
     nic,
     setNic,
     fetchElectionList,
+    isVerified,
+    setIsVerified,
   };
 
   return (

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"; // useNavigate instead of useHis
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginAdmin } from "../services/authService";
+import { useContext } from "react";
+import { ElectionContext } from "../contexts/ElectionContext";
 
 // import "../styles/AdminLogin.css"; // Import CSS for styling
 
@@ -19,6 +21,8 @@ const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { setIsVerified } = useContext(ElectionContext);
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
@@ -36,10 +40,12 @@ const AdminLogin = () => {
     };
 
     const res = await loginAdmin(loginData);
+    console.log(res);
 
     // Check if the login was successful
     if (res.isSuccess) {
       toast.success(res.message);
+      setIsVerified(true);
       // Redirect to the dashboard after successful login
       navigate("/admin-dashboard"); // Use navigate instead of history.push
     } else {

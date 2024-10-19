@@ -19,6 +19,7 @@ const ElectionContextProvider = (props) => {
   const [upcomingElections, setUpcomingElections] = useState([]);
   const [happeningElections, setHappeningElections] = useState([]);
   const [closedElections, setClosedElections] = useState([]);
+  const [isVerified, setIsVerified] = useState(false);
 
   const [election, setElection] = useState({
     title: "",
@@ -65,6 +66,8 @@ const ElectionContextProvider = (props) => {
     upcomingElections,
     happeningElections,
     closedElections,
+    isVerified,
+    setIsVerified,
   };
 
   return (
