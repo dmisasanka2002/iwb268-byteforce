@@ -8,16 +8,18 @@ import ballerina/http;
 import ballerina/jwt;
 import ballerina/time;
 
+configurable string frontUrl = ?;
+configurable string adminUrl = ?;
+
 # A service representing a network-accessible API
 # bound to port `9090`.
 #
 @http:ServiceConfig {
     cors: {
-        allowOrigins: ["*"]
+        allowOrigins: [frontUrl, adminUrl]
     }
 }
 
-// TODO: implement this service, Should be change all the post and put requests with return type "Sucess record to access properly in frontend"
 isolated service /api on new http:Listener(9090) {
 
     private Database db;
@@ -101,7 +103,6 @@ isolated service /api on new http:Listener(9090) {
         }
     }
 
-    // TODO: implement this method to get election details such as percentage of vote, and analytics.
     resource function get election/details/[string election_id]() {
 
     }
@@ -182,7 +183,6 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success
-    // TODO: Shold be checked the vote function.
 
     resource function post vote(Vote newVote) returns http:Ok & readonly|http:Response {
         http:Response responce = new;
@@ -262,7 +262,6 @@ isolated service /api on new http:Listener(9090) {
     }
 
     // success
-    // TODO: add the proper response as other one
     resource function post upload/file/[FileTypes fileType]/[string election_id](http:Request request) returns http:Response|error {
         http:Response response = new;
         string[][] csvLines = check readCSVFromRequest:extractCSVLines(request);
