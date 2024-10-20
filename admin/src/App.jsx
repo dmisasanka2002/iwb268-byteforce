@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams,
-} from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import ElectionDetailPage from "./pages/ElectionDetailPage";
 import "./App.css";
 import AdminDashboard from "./components/AdminDashboard";
