@@ -46,7 +46,7 @@ This is a smart election system built with **React** and **Ballerina**, designed
 
    For detailed instructions on how to obtain a Google OAuth Client ID, refer to this article:  
    [Obtaining a Google OAuth Client ID](https://dev.to/gamith_chanuka/obtaining-a-google-oauth-client-id-2gf9).
-
+   (Here we have already added google auth client id, if you need your id see this document)
 ## 🚀 Running the Application
 
 To run the project, execute the following commands from the **root directory**:
