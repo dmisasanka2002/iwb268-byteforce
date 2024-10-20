@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams,
-} from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import VoterPage from "./pages/VoterPage";
 import "./App.css";
 import VotePage from "./pages/VotePage";
@@ -25,15 +20,10 @@ function App() {
   const { id } = useParams();
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<VoterPage />} />
-          <Route
-            path="/voter/vote/:id"
-            element={<VotePage electionId={id} />}
-          />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/" element={<VoterPage />} />
+        <Route path="/voter/vote/:id" element={<VotePage electionId={id} />} />
+      </Routes>
     </>
   );
 }
