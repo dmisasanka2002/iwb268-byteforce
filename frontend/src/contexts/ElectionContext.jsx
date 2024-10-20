@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { getElegibleElectionList } from "../services/electionService";
 
 export const ElectionContext = createContext({});
@@ -19,16 +19,12 @@ const ElectionContextProvider = (props) => {
   const [happeningElections, setHappeningElections] = useState([]);
   const [nic, setNic] = useState(null);
   const [isVerified, setIsVerified] = useState(false);
+  const [isNICVerified, setIsNICVerified] = useState(false);
 
   const [election, setElection] = useState({
     title: "",
     startTime: "",
     endTime: "",
-  });
-
-  useEffect(() => {
-    const verify = localStorage.getItem("verify");
-    setIsVerified(verify);
   });
 
   /**
@@ -72,6 +68,8 @@ const ElectionContextProvider = (props) => {
     fetchElectionList,
     isVerified,
     setIsVerified,
+    isNICVerified,
+    setIsNICVerified,
   };
 
   return (

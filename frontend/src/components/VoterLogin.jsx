@@ -18,12 +18,17 @@ import { toast } from "react-toastify";
  * @returns {JSX.Element} The JSX element representing the voter login component.
  */
 const VoterLogin = () => {
-  const [isNICVerified, setIsNICVerified] = useState(false);
-  // const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState(""); // For error handling
 
-  const { nic, setNic, fetchElectionList, isVerified, setIsVerified } =
-    useContext(ElectionContext);
+  const {
+    nic,
+    setNic,
+    fetchElectionList,
+    isVerified,
+    setIsVerified,
+    isNICVerified,
+    setIsNICVerified,
+  } = useContext(ElectionContext);
 
   /**
    * Handles the login process after a user has signed in with Google One Tap.
@@ -46,7 +51,6 @@ const VoterLogin = () => {
     if (res.data.isSuccess || res.status == 200) {
       fetchElectionList(nic);
       setIsVerified(true);
-      localStorage.setItem("verify", true);
     } else {
       setError("Verification failed. Please check your email and NIC."); // Display error
       toast.error(
