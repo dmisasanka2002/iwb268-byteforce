@@ -46,6 +46,7 @@ const AdminLogin = () => {
     if (res.isSuccess) {
       toast.success(res.message);
       setIsVerified(true);
+      localStorage.setItem("verify", true);
       // Redirect to the dashboard after successful login
       navigate("/admin-dashboard"); // Use navigate instead of history.push
     } else {

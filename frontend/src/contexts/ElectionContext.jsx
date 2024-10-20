@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { getElegibleElectionList } from "../services/electionService";
 
 export const ElectionContext = createContext({});
@@ -24,6 +24,11 @@ const ElectionContextProvider = (props) => {
     title: "",
     startTime: "",
     endTime: "",
+  });
+
+  useEffect(() => {
+    const verify = localStorage.getItem("verify");
+    setIsVerified(verify);
   });
 
   /**

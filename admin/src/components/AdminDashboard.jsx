@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ElectionList from "./ElectionList";
 
 /**
@@ -13,6 +13,7 @@ import ElectionList from "./ElectionList";
  * @returns {React.ReactElement} The rendered component.
  */
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="h-[65px] bg-blue-800 shadow-lg rounded-b-xl">
@@ -22,18 +23,26 @@ const AdminDashboard = () => {
           </h1>
           <nav className="space-x-6">
             <Link
-                to="/admin-dashboard/addnewadmin"
-                className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
-              >
-                Add New Admins
+              to="/admin-dashboard/addnewadmin"
+              className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
+            >
+              Add New Admins
             </Link>
             <Link
               to="/election/new"
               className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
-              >
+            >
               Create New Election
             </Link>
-
+            <button
+              className="px-5 py-2 text-center text-white no-underline transition duration-300 ease-in-out border border-transparent rounded-full bg-white/10 hover:bg-white hover:text-gray-800 hover:shadow-lg decoration-transparent hover:decoration-transparent"
+              onClick={() => {
+                localStorage.removeItem("verify");
+                navigate("/");
+              }}
+            >
+              Log Out
+            </button>
           </nav>
         </div>
       </div>

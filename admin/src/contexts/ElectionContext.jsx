@@ -52,6 +52,8 @@ const ElectionContextProvider = (props) => {
 
   useEffect(() => {
     fetchElectionList();
+    const verified = localStorage.getItem("verify");
+    setIsVerified(verified);
   }, []);
 
   const values = {

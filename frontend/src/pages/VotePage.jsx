@@ -73,6 +73,7 @@ const VotePage = ({ electionId }) => {
       if (res.status == 200) {
         setHasVoted(true);
         setShowModal(false); // Hide the modal after vote
+        localStorage.removeItem("verify");
         toast.success("Vote cast successfully!");
       } else {
         // alert(res.message);

@@ -46,6 +46,7 @@ const VoterLogin = () => {
     if (res.data.isSuccess || res.status == 200) {
       fetchElectionList(nic);
       setIsVerified(true);
+      localStorage.setItem("verify", true);
     } else {
       setError("Verification failed. Please check your email and NIC."); // Display error
       toast.error(
